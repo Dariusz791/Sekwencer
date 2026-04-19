@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="ST_BigBagMassBalanceOutValues" Id="{b6c5497a-09aa-4b76-84ef-de8b1df290aa}">
+    <Declaration><![CDATA[TYPE ST_BigBagMassBalanceOutValues :
+STRUCT
+    rDischargeMass          : REAL;   // rzeczywista masa wyładowana
+    rBagActualMassNew       : REAL;   // nowa masa worka po cyklu
+    rMassToTarget           : REAL;   // ile zostało do targetu
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

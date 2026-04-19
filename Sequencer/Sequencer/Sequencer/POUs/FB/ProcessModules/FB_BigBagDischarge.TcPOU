@@ -21,7 +21,7 @@ VAR_INPUT
 END_VAR
 
 VAR_OUTPUT
-    eFillMode                   : E_BigBagFillMode; // wybrany tryb wysypu
+    eFillMode                   : E_BigBagDischarge; // wybrany tryb wysypu
 
     uiFlapPosSp                 : UINT;     // zadana pozycja klapy 0..100%
     bDone                       : BOOL;     // zakończony etap wysypu
@@ -59,9 +59,9 @@ IF bEnable AND NOT bEnablePrev THEN
 
     // wybór trybu tylko raz, na starcie wysypu
     IF rDosedBatchActual <= rMassMissingToBagTarget THEN
-        eFillMode := E_BigBagFillMode.BULK; // cały nowy wsad mieści się jeszcze do worka
+        eFillMode := E_BigBagDischarge.BULK; // cały nowy wsad mieści się jeszcze do worka
     ELSE
-        eFillMode := E_BigBagFillMode.PRECISE; // ten cykl może już domknąć worek
+        eFillMode := E_BigBagDischarge.PRECISE; // ten cykl może już domknąć worek
     END_IF;
 END_IF;
 
@@ -94,7 +94,7 @@ END_IF;
 // ---------------------------------------------------------
 CASE eFillMode OF
 
-    E_BigBagFillMode.BULK:
+    E_BigBagDischarge.BULK:
         sDiag := 'Wysyp bulk';
         uiFlapPosSp := uiFlapPosFast_SP; // szybki wysyp - klapa szeroko otwarta
 
@@ -115,7 +115,7 @@ CASE eFillMode OF
         END_IF;
 
 
-    E_BigBagFillMode.PRECISE:
+    E_BigBagDischarge.PRECISE:
         sDiag := 'Wysyp precyzyjny';
         uiFlapPosSp := uiFlapPosFine_SP; // wolny / ostrożny wysyp
         fbBulkTimer(IN := FALSE, PT := tBulkDischargeTime_SP);

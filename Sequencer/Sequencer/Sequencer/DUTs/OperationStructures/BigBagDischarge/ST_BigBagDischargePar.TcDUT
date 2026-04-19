@@ -4,8 +4,8 @@
     <Declaration><![CDATA[TYPE ST_BigBagDischargePar :
 STRUCT
     tTimeout                : TIME;   // opcjonalny maksymalny czas rozładunku
-	uiFlapPosFast_SP      : UINT;   // procentowy poziom otwarcia klapy dla szybkiego wyładunku
-    uiFlapPosFine_SP      : UINT;   // procentowy poziom otwarcia klapy dla dokładnego wyładunku
+	uiFlapPosFast_SP        : UINT;   // procentowy poziom otwarcia klapy dla szybkiego wyładunku
+    uiFlapPosFine_SP        : UINT;   // procentowy poziom otwarcia klapy dla dokładnego wyładunku
 END_STRUCT
 END_TYPE
 ]]></Declaration>

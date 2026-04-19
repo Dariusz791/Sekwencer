@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
-  <DUT Name="ST_BigBagInCmd" Id="{18b4d388-5f80-4074-aeb0-ac9c1e14ee64}">
-    <Declaration><![CDATA[TYPE ST_BigBagInCmd :
+  <DUT Name="ST_BigBagMassBalanceInCmd" Id="{18b4d388-5f80-4074-aeb0-ac9c1e14ee64}">
+    <Declaration><![CDATA[TYPE ST_BigBagMassBalanceInCmd :
 STRUCT
     bEnable                 : BOOL;
     bConfirmBagChange       : BOOL;

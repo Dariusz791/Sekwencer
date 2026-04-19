@@ -81,5 +81,10 @@
       <From>ST_BigBagDischargeStatus_1</From>
       <To>ST_BigBagDischargeOutValues</To>
     </RenamedType>
+    <RenamedType>
+      <Type guid="1e732184-5e66-4011-b009-6363e29cd634">E_BIGBAGFILLMODE</Type>
+      <From>E_BigBagFillMode</From>
+      <To>E_BigBagDischarge</To>
+    </RenamedType>
   </Renames>
 </Refactors>

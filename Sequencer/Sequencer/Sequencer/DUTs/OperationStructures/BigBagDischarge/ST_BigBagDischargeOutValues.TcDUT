@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="ST_BigBagDischargeOutValues" Id="{7f536106-a607-4363-9575-3f1b0e9640e7}">
+    <Declaration><![CDATA[TYPE ST_BigBagDischargeOutValues :
+STRUCT
+    uiFlapPosSp                 : UINT; // zadana pozycja klapy 0..100%
+    rDischargedMassStep         : REAL; // niestabilna masa zrzucona w aktualnym wysypie
+    rMassMissingToBagTarget     : REAL; // ile jeszcze brakuje do targetu worka
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="ST_DischargeInValues" Id="{41cfa616-8d8f-48a4-b857-2dfdb2f15729}">
+    <Declaration><![CDATA[TYPE ST_DischargeInValues :
+STRUCT
+    rActualWeight       : REAL;   // aktualna masa z czujnika CV
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

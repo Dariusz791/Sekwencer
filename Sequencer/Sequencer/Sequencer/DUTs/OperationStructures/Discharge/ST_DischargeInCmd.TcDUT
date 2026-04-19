@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
-  <DUT Name="ST_DischargeInCmd_1" Id="{663ab9aa-da80-4713-a100-76597b8f569f}">
-    <Declaration><![CDATA[TYPE ST_DischargeInCmd_1 :
+  <DUT Name="ST_DischargeInCmd" Id="{663ab9aa-da80-4713-a100-76597b8f569f}">
+    <Declaration><![CDATA[TYPE ST_DischargeInCmd :
 STRUCT
     bRun                : BOOL;
     bConfirmBagChange   : BOOL;
