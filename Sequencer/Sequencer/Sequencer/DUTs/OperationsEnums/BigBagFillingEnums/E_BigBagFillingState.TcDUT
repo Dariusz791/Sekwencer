@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="E_BigBagFillingState" Id="{7b241d3a-415e-4add-a5c4-4aff02f16bc7}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE E_BigBagFillingState :
+(
+    IDLE,               // blok nieaktywny
+    BULK_DISCHARGE,     // szybki wysyp całego cyklu
+    PRECISE_DISCHARGE,  // wolny / precyzyjny wysyp do domknięcia worka
+    WAIT_BAG_CHANGE,    // oczekiwanie na wymianę worka
+    DONE                // zakończony aktualny wysyp
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

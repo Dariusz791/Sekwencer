@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <GVL Name="GVL" Id="{4ff3fd9a-97ca-46b2-9eff-f440e962df03}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	//**************************** Struktury wymiany ***************************************************************
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'g_stProcessCmd (structured) type '} 
+    g_stProcessCmd        : ST_ProcessCmd;
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'g_stProcessStatus (structured) type '} 
+    g_stProcessStatus     : ST_ProcessStatus;
+
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'g_stRouteStatus (structured) type '} 
+    g_stRouteStatus       : ST_RouteStatus;
+
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'g_stDeviceDiag (structured) type '} 
+    g_stDeviceDiag        : ST_DeviceDiag;
+
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'g_stProcessDiag (structured) type '} 
+    g_stProcessDiag       : ST_ProcessDiag;
+
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'g_stProcessValues (structured) type '} 
+    g_stProcessValues     : ST_ProcessValues;
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'g_stDischargeCmd (structured) type '} 
+    g_stDischargeCmd      : ST_DischargeCmd;
+
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'g_stBigBagDischargeStatus (structured) type '} 
+    g_stBigBagDischargeStatus   : ST_BigBagDischargeStatus;
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'g_stBigBagValues (structured) type '} 
+    g_stBigBagValues     : ST_BigBagValues;
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'g_stBigBagCmd (structured) type '} 
+	g_stBigBagCmd : ST_BigBagCmd;
+
+
+
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'g_stFlapControl (structured) type '} 
+    g_stFlapControl     : ST_FlapControl;
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'g_stBigBagMassbalanceStatus (structured) type '} 
+    g_stBigBagMassbalanceStatus   : ST_BigBagMassBalanceStatus;
+	
+	
+	
+	//pomocnicze
+	g_rCycleMassActual		: REAL; // rzeczywista masa aktualnego cyklu przygotowanego do wysypu - DeltaLime + DeltaSludge + DeltaPerlit
+	g_rStartBagMass			: REAL; // masa startowa gdy podlozony bigBag nie jest pusty opcja przydatna w takich sytuacjach operator musi to podac
+	g_rReactorActualMass	: REAL;	// aktualna masa na wadze VR01 z czujnika tensometrycznego
+
+	
+	//pomocnicze
+	g_Enable				: BOOL; //start bloku 
+	g_bConfirmBagChange		: BOOL;  //sygnalizuj wymiane big bag
+	g_bLoadStartBagMass		: BOOL;  //załąduj mase stertowa big baga jelsi nie byl pusty w przyblizeniu
+	
+	
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

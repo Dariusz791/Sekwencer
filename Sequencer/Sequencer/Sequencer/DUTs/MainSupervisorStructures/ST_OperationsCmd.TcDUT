@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="ST_OperationsCmd" Id="{ec229538-97f6-4dfe-8358-f58ee19f989e}">
+    <Declaration><![CDATA[TYPE ST_OperationsCmd :
+STRUCT
+	bRunDischargeR01ToVR01 : BOOL;   // żądanie uruchomienia operacji DischargeR01ToVR01
+    bRunFeedSBRtoR01       : BOOL;   // żądanie uruchomienia operacji FeedSBRtoR01
+    bRunR01ToWiata  	   : BOOL;   // żądanie uruchomienia operacji R01 do Wiata
+    bRunSBRToWiata         : BOOL;   // żądanie uruchomienia operacji SBR do Wiata
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

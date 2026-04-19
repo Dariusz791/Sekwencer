@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <POU Name="FB_BigBagDischarge" Id="{c7a51148-0376-478c-8fe6-00445313d9b3}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_BigBagDischarge
+VAR_INPUT
+    bEnable                     : BOOL;     // aktywacja bloku wysypu do Big Baga
+
+    rBagActualMass              : REAL;     // aktualna masa bieżącego worka przed rozpoczęciem wysypu
+    rBagTargetMass_SP           : REAL;     // zadana masa aktualnego Big Baga
+
+    rDosedBatchActual           : REAL;     // aktualna rzeczywista ilość zadozowana w cyklu rSludge + rLime +rPerlite
+    rBatchDischargeToleranceKg  : REAL;     // tolerancja uznania, że bulk praktycznie cały już wyszedł
+
+    rMassBeforeDischarge		: REAL;		// stabilna masa przed wysypem odczytana z wagi zawiera wsad z cyklu + zaleganie
+	rActualWeight               : REAL;     // aktualna masa batch procesu odczytywana z wagi
+
+    tBulkDischargeTime_SP       : TIME;     // maksymalny czas wysypu w trybie BULK
+
+    uiFlapPosFast_SP            : UINT;     // pozycja klapy dla szybkiego wysypu
+    uiFlapPosFine_SP            : UINT;     // pozycja klapy dla precyzyjnego wysypu
+END_VAR
+
+VAR_OUTPUT
+    eFillMode                   : E_BigBagFillMode; // wybrany tryb wysypu
+
+    uiFlapPosSp                 : UINT;     // zadana pozycja klapy 0..100%
+    bDone                       : BOOL;     // zakończony etap wysypu
+	
+    rDischargedMassStep         : REAL;     // niestabilna masa zrzucona w aktualnym wysypie według bieżącego bilansu
+    rMassMissingToBagTarget     : REAL;     // ile jeszcze brakuje do osiągnięcia targetu worka
+
+    sDiag                       : T_MaxString; // komunikat diagnostyczny
+END_VAR
+
+VAR
+    fbBulkTimer                 : TON;      // timer maksymalnego czasu wysypu bulk
+	bEnablePrev                 : BOOL := FALSE; // poprzedni stan enable do wykrycia startu wysypu
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// ---------------------------------------------------------
+// DOMYŚLNE WYJŚCIA
+// ---------------------------------------------------------
+uiFlapPosSp := 0;          // domyślnie klapa zamknięta
+bDone := FALSE;            // domyślnie etap wysypu nie jest zakończony
+sDiag := '';               // domyślnie pusty komunikat
+
+
+// ---------------------------------------------------------
+// DETEKCJA STARTU NOWEGO WYSYPU
+// ---------------------------------------------------------
+IF bEnable AND NOT bEnablePrev THEN
+    rMassMissingToBagTarget := rBagTargetMass_SP - rBagActualMass; // ile jeszcze brakuje do targetu worka
+
+    IF rMassMissingToBagTarget < 0.0 THEN
+        rMassMissingToBagTarget := 0.0; // zabezpieczenie przed wartością ujemną
+    END_IF;
+
+    // wybór trybu tylko raz, na starcie wysypu
+    IF rDosedBatchActual <= rMassMissingToBagTarget THEN
+        eFillMode := E_BigBagFillMode.BULK; // cały nowy wsad mieści się jeszcze do worka
+    ELSE
+        eFillMode := E_BigBagFillMode.PRECISE; // ten cykl może już domknąć worek
+    END_IF;
+END_IF;
+
+bEnablePrev := bEnable;
+
+
+// ---------------------------------------------------------
+// BLOK NIEAKTYWNY
+// ---------------------------------------------------------
+IF NOT bEnable THEN
+    fbBulkTimer(IN := FALSE, PT := tBulkDischargeTime_SP);
+    uiFlapPosSp := 0;
+    rDischargedMassStep := 0.0;
+    sDiag := 'BigBagDischarge idle';
+    RETURN;
+END_IF;
+
+
+// ---------------------------------------------------------
+// OBLICZENIA BIEŻĄCE
+// ---------------------------------------------------------
+rDischargedMassStep := rMassBeforeDischarge - rActualWeight; // ile zeszło od ustalonej masy przed wysypem na biezaco
+IF rDischargedMassStep < 0.0 THEN
+    rDischargedMassStep := 0.0; // zabezpieczenie przed ujemną różnicą
+END_IF;
+
+
+// ---------------------------------------------------------
+// LOGIKA TRYBÓW WYSYPU
+// ---------------------------------------------------------
+CASE eFillMode OF
+
+    E_BigBagFillMode.BULK:
+        sDiag := 'Wysyp bulk';
+        uiFlapPosSp := uiFlapPosFast_SP; // szybki wysyp - klapa szeroko otwarta
+
+        fbBulkTimer(IN := TRUE, PT := tBulkDischargeTime_SP);
+
+        // zakończenie bulk:
+        // 1) jeśli praktycznie cały nowy wsad już wyszedł
+        // 2) albo jeśli minął maksymalny czas wysypu
+        IF rDischargedMassStep >= (rDosedBatchActual - rBatchDischargeToleranceKg) THEN
+            uiFlapPosSp := 0; // zamknij klapę
+            fbBulkTimer(IN := FALSE, PT := tBulkDischargeTime_SP);
+            bDone := TRUE;
+
+        ELSIF fbBulkTimer.Q THEN
+            uiFlapPosSp := 0; // zamknij klapę
+            fbBulkTimer(IN := FALSE, PT := tBulkDischargeTime_SP);
+            bDone := TRUE;
+        END_IF;
+
+
+    E_BigBagFillMode.PRECISE:
+        sDiag := 'Wysyp precyzyjny';
+        uiFlapPosSp := uiFlapPosFine_SP; // wolny / ostrożny wysyp
+        fbBulkTimer(IN := FALSE, PT := tBulkDischargeTime_SP);
+
+        // Na tym etapie nie robimy jeszcze finalnej oceny domknięcia worka z zakłóconej wagi.
+        // Ten blok kończy tylko etap wysypu.
+        // Na start przyjmujemy ten sam warunek masowy co dla batcha,
+        // a właściwa ocena worka nastąpi później po zatrzymaniu napędu i stabilizacji wagi.
+        IF rDischargedMassStep >= (rDosedBatchActual - rBatchDischargeToleranceKg) THEN
+            uiFlapPosSp := 0; // zamknij klapę
+            bDone := TRUE;
+        END_IF;
+
+
+ELSE
+    uiFlapPosSp := 0;
+    fbBulkTimer(IN := FALSE, PT := tBulkDischargeTime_SP);
+END_CASE;]]></ST>
+    </Implementation>
+    <LineIds Name="FB_BigBagDischarge">
+      <LineId Id="80" Count="93" />
+      <LineId Id="53" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <POU Name="FB_RouteManager" Id="{2cc54890-26a8-4039-94c6-741236dde086}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_RouteManager
+VAR_INPUT
+	
+	// tryb pracy
+	eMode               : E_MainMode;	
+    eSelectedRoute      : E_Route;	    // ustawiona aktualna trasa w MANUAL
+	eAutoRouteReq       : E_Route;      // zadana trasa z Supervisora w AUTO
+    bConfirmRouteReq    : BOOL; 		// potwierdzenie SCADA
+END_VAR
+
+VAR_OUTPUT	
+	eConfirmedRoute     : E_Route;	    // potwierdzona trasa
+    bRouteValid         : BOOL;		    // czy aktualna aktywna trasa jest potwierdzona
+	iState              : INT;		    // stan dla sygnalizacji w SCADA					
+END_VAR
+
+VAR
+    rtConfirmRoute      : R_TRIG;
+    eLastActiveRoute  	: E_Route;
+    bRouteConfigChanged : BOOL;
+    eActiveRoute        : E_Route;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// wyznaczenie aktualnie aktywnej trasy zależnie od trybu
+CASE eMode OF
+    E_MainMode.OFF:
+        eActiveRoute := E_Route.NONE;
+
+    E_MainMode.AUTO:
+        eActiveRoute := eAutoRouteReq;
+
+    E_MainMode.MANUAL:
+        eActiveRoute := eSelectedRoute;
+END_CASE;
+
+
+// wykrycie zmiany aktywnej trasy
+bRouteConfigChanged := (eActiveRoute <> eLastActiveRoute);
+
+// przy zmianie trasy kasujemy poprzednie potwierdzenie
+IF bRouteConfigChanged THEN
+    eConfirmedRoute := E_Route.NONE;
+END_IF;
+
+
+// obsługa potwierdzenia - poziomowo
+IF bConfirmRouteReq AND (eActiveRoute <> E_Route.NONE) THEN
+    eConfirmedRoute := eActiveRoute;
+END_IF;
+
+
+// flaga poprawności trasy
+bRouteValid := (eActiveRoute <> E_Route.NONE) AND (eActiveRoute = eConfirmedRoute);
+
+
+// stan do SCADA
+CASE eMode OF
+    E_MainMode.OFF:
+        bRouteValid := FALSE;
+        eConfirmedRoute := E_Route.NONE;
+        iState := 0;
+
+    E_MainMode.AUTO, E_MainMode.MANUAL:
+        IF eActiveRoute = E_Route.NONE THEN
+            iState := 0;
+        ELSIF NOT bRouteValid THEN
+            iState := 1;
+        ELSE
+            iState := 2;
+        END_IF
+END_CASE;
+
+
+// zapamiętanie ostatniej aktywnej trasy
+eLastActiveRoute := eActiveRoute;]]></ST>
+    </Implementation>
+    <LineIds Name="FB_RouteManager">
+      <LineId Id="682" Count="50" />
+      <LineId Id="218" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

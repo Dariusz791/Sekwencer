@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <POU Name="FB_AirExtraction" Id="{ffade5ac-f23e-418e-be6a-a9a4ce368bf9}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_AirExtraction
+VAR_INPUT
+	bEnable	: BOOL;
+END_VAR
+VAR_OUTPUT
+	bCmd_BL01 : BOOL;
+END_VAR
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// ---------------------------------------------------------
+// STOP GLOBALNY
+// ---------------------------------------------------------
+IF NOT bEnable THEN
+	bCmd_BL01 := FALSE;	
+ELSE
+	bCmd_BL01 := TRUE;	
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="FB_AirExtraction">
+      <LineId Id="32" Count="4" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

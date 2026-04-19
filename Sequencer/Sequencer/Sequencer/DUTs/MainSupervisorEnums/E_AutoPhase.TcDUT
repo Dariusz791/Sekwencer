@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="E_AutoPhase" Id="{c5d88948-7edf-4e88-b16b-bf63a05847cd}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE E_AutoPhase :
+(
+	AUTO_IDLE							:= 0,
+	AUTO_CHECK_START_CONDITIONS         := 1,
+	AUTO_WAIT_DISCHARGE_ROUTE_CONFIRM   := 2,
+	AUTO_DISCHARGE_TO_MIN               := 3,
+	AUTO_WAIT_FEED_ROUTE_CONFIRM        := 4,
+	AUTO_FEED_TO_MAX                    := 5,
+	AUTO_COMPLETE                       := 6
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

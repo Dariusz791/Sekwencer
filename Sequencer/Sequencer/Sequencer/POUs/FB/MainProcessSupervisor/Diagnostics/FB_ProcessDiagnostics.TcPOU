@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <POU Name="FB_ProcessDiagnostics" Id="{abb03752-4688-45b3-a983-3f82fe4f6668}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ProcessDiagnostics
+VAR_INPUT
+    // Z diagnostyki urządzeń
+    bCriticalDeviceFault      : BOOL;
+  
+    // Dostępność materiałów
+    bLimeAvailable            : BOOL;
+    bPerliteAvailable         : BOOL;
+
+    // Zewnętrzna stacja odwadniania
+    bSPD01Fault 	           : BOOL;
+
+
+END_VAR
+VAR_OUTPUT
+    // Fault procesu
+    bSPD01FaultActive            : BOOL;
+    
+	bPauseRequiredByProcess      : BOOL;
+    bPauseNoLime                 : BOOL;
+    bPauseNoPerlite              : BOOL;
+
+    // Gotowość systemu
+    bSystemReady		         : BOOL;
+
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[bSPD01FaultActive := bSPD01Fault;
+
+bPauseNoLime :=	NOT bLimeAvailable;
+
+bPauseNoPerlite :=	NOT bPerliteAvailable;
+
+bPauseRequiredByProcess :=	bPauseNoLime OR	bPauseNoPerlite;
+
+bSystemReady :=	NOT bSPD01FaultActive AND NOT bCriticalDeviceFault;
+
+
+
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="FB_ProcessDiagnostics">
+      <LineId Id="68" Count="0" />
+      <LineId Id="70" Count="1" />
+      <LineId Id="73" Count="1" />
+      <LineId Id="76" Count="1" />
+      <LineId Id="80" Count="1" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="96" Count="1" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

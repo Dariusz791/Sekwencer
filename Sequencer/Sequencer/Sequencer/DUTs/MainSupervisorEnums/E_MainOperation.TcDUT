@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="E_MainOperation" Id="{c72f695f-ec11-43ef-acb2-e5ab2c268dfd}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE E_MainOperation :
+(
+	NONE			:=	0,
+	SBR_TO_R01		:=	1,
+	R01_TO_VR01		:=	2,
+	SBR_TO_WIATA	:=	3,
+	R01_TO_WIATA	:=	4
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

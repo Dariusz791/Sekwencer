@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="E_BigBagFillMode" Id="{1e732184-5e66-4011-b009-6363e29cd634}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE E_BigBagFillMode :
+(
+    BULK,       // wysyp szybki
+    PRECISE     // wysyp precyzyjny
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

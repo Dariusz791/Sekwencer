@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="ST_RouteStatus" Id="{0e5e1979-83eb-4ac4-a38c-5f1bcefb5339}">
+    <Declaration><![CDATA[TYPE ST_RouteStatus :
+STRUCT
+    eSelectedRoute             : E_Route;
+	eConfirmedRoute			   : E_Route;	
+    bRouteValid                : BOOL;
+    iState					   : INT;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

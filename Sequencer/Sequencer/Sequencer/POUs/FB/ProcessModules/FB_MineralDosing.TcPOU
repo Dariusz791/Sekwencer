@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <POU Name="FB_MineralDosing" Id="{e8897803-8fd8-42c6-b4fe-4a284fd0c542}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_MineralDosing
+VAR_INPUT
+    bEnable     : BOOL; // start FB
+    tOn_EV      : TIME; // czas dzialania EV
+    tOff_EV     : TIME; // czas postoju EV
+END_VAR
+
+VAR_OUTPUT
+    bCmd_EV     : BOOL; // uruchom napęd EV
+    bCmd_SC     : BOOL; // uruchom napęd SC
+    bPhase      : BOOL; // faza vibratora TRUE=ON FALSE=OFF
+    iStep       : INT;  // 0-init, 10-ON, 20-OFF
+END_VAR
+
+VAR
+    fbTon       : TON;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// ---------------------------------------------------------
+// STOP GLOBALNY
+// ---------------------------------------------------------
+IF NOT bEnable THEN
+    bCmd_EV := FALSE;
+    bCmd_SC := FALSE;
+    bPhase  := FALSE;
+    fbTon(IN := FALSE, PT := T#0S);
+    iStep := 0;
+	RETURN;
+END_IF
+  
+// ---------------------------------------------------------
+// SEKWENCJA KROKOWA
+// 0  -> Start podajnika SC
+// 10 -> EV ON przez tOn_EV
+// 20 -> EV OFF przez tOff_EV
+// SC pracuje cały czas, gdy blok aktywny
+// ---------------------------------------------------------
+
+CASE iStep OF
+    	
+    0: // Start podajnika SC    	
+		bCmd_SC := TRUE; // podajnik działa cały czas    	
+        bCmd_EV := FALSE;		
+        bPhase  := FALSE;    	
+        fbTon(IN := FALSE, PT := T#0S);    	
+        iStep := 10;    	
+    	
+    10: // EV ON przez tOn_EV    
+		bCmd_SC := TRUE; // podajnik działa cały czas	
+        bCmd_EV := TRUE;    	
+        bPhase  := TRUE;    	
+        fbTon(IN := TRUE, PT := tOn_EV);    	
+    	
+        IF fbTon.Q THEN    	
+            bCmd_EV := FALSE;    	
+            bPhase  := FALSE;    	
+            fbTon(IN := FALSE, PT := T#0S);    	
+            iStep := 20;    	
+        END_IF;    	
+    	
+    20: // EV OFF przez tOff_EV  
+		bCmd_SC := TRUE; // podajnik działa cały czas  	
+        bCmd_EV := FALSE;    	
+        bPhase  := FALSE;    	
+        fbTon(IN := TRUE, PT := tOff_EV);    	
+    	
+        IF fbTon.Q THEN    	
+            fbTon(IN := FALSE, PT := T#0S);    	
+            iStep := 10;    	
+        END_IF;    	
+    	
+    ELSE    	
+        bCmd_EV := FALSE;    	
+        bCmd_SC := FALSE;    	
+        bPhase  := FALSE;    	
+        fbTon(IN := FALSE, PT := T#0S);    	
+	    iStep := 0;    	
+    	
+END_CASE;    	
+    	
+]]></ST>
+    </Implementation>
+    <LineIds Name="FB_MineralDosing">
+      <LineId Id="260" Count="11" />
+      <LineId Id="332" Count="5" />
+      <LineId Id="330" Count="0" />
+      <LineId Id="338" Count="0" />
+      <LineId Id="272" Count="3" />
+      <LineId Id="331" Count="0" />
+      <LineId Id="276" Count="4" />
+      <LineId Id="339" Count="0" />
+      <LineId Id="281" Count="11" />
+      <LineId Id="340" Count="0" />
+      <LineId Id="293" Count="17" />
+      <LineId Id="21" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

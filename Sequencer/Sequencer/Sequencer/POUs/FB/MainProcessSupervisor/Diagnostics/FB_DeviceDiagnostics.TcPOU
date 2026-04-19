@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <POU Name="FB_DeviceDiagnostics" Id="{02f7a161-ef07-44c2-bf7e-e151ca22cfd6}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_DeviceDiagnostics
+VAR_INPUT
+	    // Falownikowe
+    bFault_SP02     		: BOOL;
+    bCommOk_SP02    		: BOOL;
+                    		
+    bFault_M01      		: BOOL;
+    bCommOk_M01     		: BOOL;
+                    		
+    bFault_M02      		: BOOL;
+    bCommOk_M02     		: BOOL;
+                    		
+    bFault_M03      		: BOOL;
+    bCommOk_M03     		: BOOL;
+                    		
+    // Bez falownika		
+    bFault_BL01     		: BOOL;
+    bFault_SC01     		: BOOL;
+    bFault_SC02     		: BOOL;
+    bFault_E01      		: BOOL;
+    bFault_E02      		: BOOL;
+	
+END_VAR
+VAR_OUTPUT
+    bCriticalDeviceFault    : BOOL;
+
+    bFault_Thermal          : BOOL;
+    bFault_Comm             : BOOL;
+    bFault_Inverter         : BOOL;
+
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[bFault_Comm :=
+    (NOT bCommOk_SP02) OR
+    (NOT bCommOk_M01)  OR
+    (NOT bCommOk_M02)  OR
+    (NOT bCommOk_M03);
+	
+bFault_Inverter :=
+    bFault_SP02 OR
+    bFault_M01  OR
+    bFault_M02  OR
+    bFault_M03;
+
+bFault_Thermal :=
+    bFault_BL01 OR
+    bFault_SC01 OR
+    bFault_SC02;
+		
+
+bCriticalDeviceFault :=
+    bFault_Comm OR
+    bFault_Inverter OR
+    bFault_Thermal;
+	]]></ST>
+    </Implementation>
+    <LineIds Name="FB_DeviceDiagnostics">
+      <LineId Id="73" Count="3" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="79" Count="3" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="84" Count="3" />
+      <LineId Id="83" Count="0" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="99" Count="3" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="97" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

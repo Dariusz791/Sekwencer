@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <POU Name="FB_MixingVR01" Id="{a23967ff-349c-49ab-ba77-9ea5a940b929}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_MixingVR01
+VAR_INPUT
+	bEnable 	: BOOL; //uruchom mieszanie z zadaną czestotliwościa pracy
+	rSpeedAuto	: REAL; //zadana częstotliwość pracy M01 i M02	
+END_VAR
+VAR_OUTPUT
+	bCmd_M01	: BOOL;
+	bCmd_M02    : BOOL;
+	rSpeedSet	: REAL;
+END_VAR
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// ---------------------------------------------------------
+// STOP GLOBALNY
+// ---------------------------------------------------------
+IF NOT bEnable THEN
+	rSpeedAuto := 0.0;
+	bCmd_M01 := FALSE;
+	bCmd_M02 := FALSE;
+ELSE
+	rSpeedSet := rSpeedAuto;
+	bCmd_M01 := TRUE;
+	bCmd_M02 := TRUE;
+END_IF
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="FB_MixingVR01">
+      <LineId Id="54" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="46" Count="1" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="20" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

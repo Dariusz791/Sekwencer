@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="ST_DeviceDiag" Id="{af01bb39-4b05-4a2d-a1b4-43cd5d42ea14}">
+    <Declaration><![CDATA[TYPE ST_DeviceDiag :
+STRUCT
+    bCriticalDeviceFault       : BOOL;
+    bDeviceWarning             : BOOL;
+
+    bFault_Thermal             : BOOL;
+    bFault_Comm                : BOOL;
+    bFault_Inverter            : BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

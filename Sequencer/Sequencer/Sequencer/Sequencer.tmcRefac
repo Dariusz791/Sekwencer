@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Refactors>
+  <Renames>
+    <RenamedType>
+      <Type guid="f05a5e9f-3290-4260-8376-93dcccda01e2">ST_DISCHARGECMD_1</Type>
+      <From>ST_DischargeCmd_1</From>
+      <To>ST_DischargeStatus</To>
+    </RenamedType>
+    <RenamedType>
+      <Type guid="ea97171b-64ef-4840-b393-f76752fc0aae">ST_DISCHARGESTATUS_1</Type>
+      <From>ST_DischargeStatus_1</From>
+      <To>ST_BigBagCmd</To>
+    </RenamedType>
+    <RenamedType>
+      <Type guid="92c7fbab-56ca-4c94-b1e6-c02e37e6f7a4">ST_BIGBAGCMD_1</Type>
+      <From>ST_BigBagCmd_1</From>
+      <To>ST_BigBagStatus</To>
+    </RenamedType>
+    <RenamedType>
+      <Type guid="b7b1c82e-aaa6-4c95-91b2-46a88ecff018">ST_BIGBAGCMD_1</Type>
+      <From>ST_BigBagCmd_1</From>
+      <To>ST_BigBagValues</To>
+    </RenamedType>
+  </Renames>
+</Refactors>

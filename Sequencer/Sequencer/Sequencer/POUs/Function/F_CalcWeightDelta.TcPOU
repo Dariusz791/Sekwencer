@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <POU Name="F_CalcWeightDelta" Id="{42eec523-0d89-4df9-941d-c7bae486d0ce}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION F_CalcWeightDelta : REAL
+VAR_INPUT
+	rLatchedWeight : REAL;    // waga zatrzaśnieta
+	rActualWeight : REAL;  // waga actualna
+END_VAR
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Funkcja wyznacza aktualny przyrost masy na podstawie
+// aktualnej wagi oraz wagi zatrzaśniętej na początku kroku dozowania.
+
+F_CalcWeightDelta := rActualWeight - rLatchedWeight;
+]]></ST>
+    </Implementation>
+    <LineIds Name="F_CalcWeightDelta">
+      <LineId Id="15" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="11" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

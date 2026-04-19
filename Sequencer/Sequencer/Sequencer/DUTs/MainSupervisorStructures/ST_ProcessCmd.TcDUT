@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="ST_ProcessCmd" Id="{e1f6948f-de1e-4c32-bc19-36eb66bcb132}">
+    <Declaration><![CDATA[TYPE ST_ProcessCmd :
+STRUCT
+    // Tryb pracy
+    eModeCmd                   : E_MainMode;
+    eManualOperationCmd        : E_MainOperation;
+
+    // Komendy operatorskie
+    bStartReq                  : BOOL;
+    bPauseReq                  : BOOL;
+    bStopReq                   : BOOL;
+	
+	stOperationsCmd			   : ST_OperationsCmd;
+
+    // Potwierdzenie aktualnie ustawionej trasy
+    bConfirmRouteReq           : BOOL;
+
+
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

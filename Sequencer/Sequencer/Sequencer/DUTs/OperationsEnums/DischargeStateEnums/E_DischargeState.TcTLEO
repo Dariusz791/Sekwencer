@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <EnumerationTextList Name="E_DischargeState" Id="{785c0cbe-b136-4106-8d69-db7636c5a1e6}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE E_DischargeState :
+(
+    IDLE,                    // blok nieaktywny
+    DOSE_SLUDGE,             // dozowanie osadu
+    DOSE_PERLITE,            // dozowanie perlitu
+    DOSE_LIME,               // dozowanie wapna
+    MIXING,                  // mieszanie wsadu przed wysypem
+
+    DISCHARGE_RUN,           // właściwy wysyp do Big Baga
+    STOP_DRIVE_FOR_WEIGHING, // zatrzymanie napędu i zamykanie klapy przed ważeniem
+    WAIT_SCALE_SETTLE,       // oczekiwanie na ustabilizowanie wagi
+    EVALUATE_DISCHARGE,      // ocena efektu wysypu po stabilizacji wagi
+
+    WAIT_BAG_CHANGE,         // oczekiwanie na wymianę worka
+    DONE                     // zakończona operacja
+);
+END_TYPE
+]]></Declaration>
+    <XmlArchive>
+      <Data>
+        <o xml:space="preserve" t="TextListEnumerationTextListObject">
+          <l n="TextList" t="ArrayList" cet="TextListRow">
+            <o>
+              <v n="TextID">"IDLE"</v>
+              <v n="TextDefault">""</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"DOSE_SLUDGE"</v>
+              <v n="TextDefault">""</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"DOSE_PERLITE"</v>
+              <v n="TextDefault">""</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"DOSE_LIME"</v>
+              <v n="TextDefault">""</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"MIXING"</v>
+              <v n="TextDefault">""</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"DISCHARGE_RUN"</v>
+              <v n="TextDefault">""</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"STOP_DRIVE_FOR_WEIGHING"</v>
+              <v n="TextDefault">""</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"WAIT_SCALE_SETTLE"</v>
+              <v n="TextDefault">""</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"EVALUATE_DISCHARGE"</v>
+              <v n="TextDefault">""</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"WAIT_BAG_CHANGE"</v>
+              <v n="TextDefault">""</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"DONE"</v>
+              <v n="TextDefault">""</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">""</v>
+              <v n="TextDefault">""</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+          </l>
+          <l n="Languages" t="ArrayList" />
+          <v n="GuidInit">{677f4a8e-cfa8-408b-a443-b728a78bb1e9}</v>
+          <v n="GuidReInit">{2c4c9bf6-8b9d-4728-a564-ac6c2255c85e}</v>
+          <v n="GuidExitX">{911a3145-af59-452e-b2c3-257f3291fe34}</v>
+        </o>
+      </Data>
+      <TypeList>
+        <Type n="ArrayList">System.Collections.ArrayList</Type>
+        <Type n="Guid">System.Guid</Type>
+        <Type n="String">System.String</Type>
+        <Type n="TextListEnumerationTextListObject">{4b60233c-f940-4beb-b331-82133b520151}</Type>
+        <Type n="TextListRow">{53da1be7-ad25-47c3-b0e8-e26286dad2e0}</Type>
+      </TypeList>
+    </XmlArchive>
+  </EnumerationTextList>
+</TcPlcObject>

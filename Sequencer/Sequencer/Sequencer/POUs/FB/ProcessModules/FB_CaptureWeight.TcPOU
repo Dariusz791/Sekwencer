@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <POU Name="FB_CaptureWeight" Id="{4ca302e9-de99-4920-93d6-4d71e477bb0b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_CaptureWeight
+VAR_INPUT
+	bEnable			: BOOL;
+	rActualWeight	: REAL;
+END_VAR
+VAR_OUTPUT
+	bLatched		: BOOL;	
+	rCapturedWeight : REAL;
+END_VAR
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// przechwytuje aktualną wagę tylko raz na jedno włączenie bEnable
+// przed kolejnym pomiarem należy podać bEnable := FALSE, aby zwolnić zatrzask
+
+IF bEnable THEN
+    IF NOT bLatched THEN
+        rCapturedWeight := rActualWeight;
+        bLatched := TRUE;
+    END_IF;
+ELSE
+    bLatched := FALSE;
+END_IF;]]></ST>
+    </Implementation>
+    <LineIds Name="FB_CaptureWeight">
+      <LineId Id="47" Count="9" />
+      <LineId Id="16" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

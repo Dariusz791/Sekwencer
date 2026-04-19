@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <POU Name="FB_BigBagMassBalance" Id="{13a3bef7-ceaa-48bb-8fc8-d81e68bdb775}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_BigBagMassBalance
+VAR_INPUT
+    bEnable                  : BOOL;
+	
+    rBagActualMass           : REAL;   // masa worka przed aktualnym cyklem
+    rBagTargetMass_SP        : REAL;   // target worka   
+	rMassBeforeDischarge	 : REAL;   // masa przed zrzutem stabilnie zważona	
+    rMassAfterDischarge 	 : REAL;   // masa po zrzucie stabilnie zważona 	
+	rBagFullToleranceKg      : REAL;   // tolerancja uznania worka za pełny
+END_VAR
+VAR_OUTPUT
+    rBagActualMassNew        : REAL;   // nowa masa worka po aktualnym cyklu
+    rMassToTarget            : REAL;   // ile brakuje do targetu
+    bBagFull                 : BOOL;   // worek osiągnął target
+    bBagChangeRequired       : BOOL;   // wymagana wymiana worka
+    bDone                    : BOOL;
+    sDiag                    : T_MaxString;
+END_VAR
+VAR
+	rDischargeMass           : REAL;   // masa rzeczywiście zrzucona po stabilizacji
+	bEnablePrev				 : BOOL:=FALSE;	//wejscie w pierwszy cykl
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// domyślna diagnostyka
+sDiag := 'BigBagMassBalance idle';
+
+// obliczenie tylko raz na zboczu aktywacji
+IF bEnable AND NOT bEnablePrev THEN
+
+	// masa rzeczywiscie zrzucona na podstawie pomiarów stabilnych wagi
+	rDischargeMass := rMassBeforeDischarge - rMassAfterDischarge; // Rzeczywista masa zrzutu       
+    
+	// nowa masa worka po aktualnym cyklu
+    rBagActualMassNew := rBagActualMass + rDischargeMass;
+ 
+    // ile jeszcze brakuje do targetu
+    rMassToTarget := rBagTargetMass_SP - rBagActualMassNew;
+
+
+    // ocena pełnego worka
+    IF rBagActualMassNew >= (rBagTargetMass_SP - rBagFullToleranceKg) THEN
+        bBagFull := TRUE;
+        bBagChangeRequired := TRUE;
+        sDiag := 'BigBag pelny - wymagana wymiana';
+    ELSE
+        bBagFull := FALSE;
+        bBagChangeRequired := FALSE;
+        sDiag := 'BigBag niepelny';
+    END_IF;
+
+    bDone := TRUE;
+END_IF;
+
+// reset gotowości po wyłączeniu enable
+IF NOT bEnable THEN
+    bDone := FALSE;
+END_IF;
+
+// pamięć poprzedniego stanu enable
+bEnablePrev := bEnable;]]></ST>
+    </Implementation>
+    <LineIds Name="FB_BigBagMassBalance">
+      <LineId Id="82" Count="4" />
+      <LineId Id="122" Count="0" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="123" Count="0" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="124" Count="0" />
+      <LineId Id="89" Count="0" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="94" Count="1" />
+      <LineId Id="98" Count="21" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

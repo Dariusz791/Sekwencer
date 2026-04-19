@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <POU Name="MAIN" Id="{9e0c23c1-d0f2-468e-bd35-036dae84e86c}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	{attribute 'OPC.UA.DA' := '1'}
+	i : INT;	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[i:=i+1;
+
+DewateringProcess();
+]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="2" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="8" Count="1" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

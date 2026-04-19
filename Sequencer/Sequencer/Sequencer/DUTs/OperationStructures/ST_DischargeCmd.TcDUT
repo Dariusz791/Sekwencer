@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="ST_DischargeCmd" Id="{d80c3f50-7b2d-4475-b02c-ecd35cee3f46}">
+    <Declaration><![CDATA[TYPE ST_DischargeCmd :
+STRUCT
+    bEn_SludgeDosing   		: BOOL; // sterowanie blokiem dozowania osadu
+    bEn_PerliteDosing  		: BOOL; // sterowanie blokiem dozowania perlitu
+    bEn_LimeDosing     		: BOOL; // sterowanie blokiem dozowania wapna
+    bEn_Mixing         		: BOOL; // sterowanie blokiem mieszania
+    bEn_AirExtraction  		: BOOL; // sterowanie blokiem usuwania pyłu i pary
+	bEn_BigBagDischarge		: BOOL; //sterowanie blokiem rozładunku do big bag
+	bEn_BigBagMassBalance	: BOOL; // sterowanie blokiem bilansu masy w worku
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

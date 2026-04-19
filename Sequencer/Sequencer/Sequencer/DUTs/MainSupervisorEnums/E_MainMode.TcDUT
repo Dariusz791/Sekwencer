@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="E_MainMode" Id="{8d5e2233-c328-4f7e-9d09-7de422af89be}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE E_MainMode :
+(
+	OFF		:=	0,	//Wyłączony
+	AUTO	:=	1,	//Tryb automatyczny cykl opróżnania i napełniania każdego dnia aktywowany przyciskiem START z Stacyjki 
+	MANUAL	:=	2	//Tryb manualnego wyboru cyklu opróżniania, napełniania, ewakuacji do wiaty osadu lub pofermentu
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <POU Name="FB_SludgeDosing" Id="{a02aaed9-c323-419f-b668-fc8438c894ae}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_SludgeDosing
+VAR_INPUT
+    bEnable                 : BOOL;   // aktywacja automatu dozowania ze SCADA
+    bPause                  : BOOL;   // wstrzymanie programowe bez resetu stanu
+    bPumpDryRunConfirmed    : BOOL;   // potwierdzony suchobieg pompy
+    tCycle                  : TIME;   // czas cyklu sterownika
+    tOff                    : TIME;   // czas oczekiwania / napełniania
+    rSpeedAuto              : REAL;   // prędkość zadana dla automatu
+END_VAR
+
+VAR_OUTPUT
+    bCmd_Pump               : BOOL;   // komenda start dla SP02
+    rSpeedSet               : REAL;   // prędkość zadana na napęd
+    iStep                   : INT;    // krok sekwencji
+    bPaused                 : BOOL;   // blok w pauzie
+
+    tOnElapsed              : TIME;   // ile trwa aktualne dozowanie
+    tOffElapsed             : TIME;   // ile trwa aktualne oczekiwanie
+END_VAR
+
+VAR
+    iStepPrev               : INT;
+    tStepElapsed            : TIME;   // upływ czasu aktualnego kroku
+END_VAR            	
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// ---------------------------------------------------------
+// STOP / RESET GLOBALNY
+// ---------------------------------------------------------
+IF NOT bEnable THEN
+    bCmd_Pump    := FALSE;
+    bPaused      := FALSE;
+    rSpeedSet    := 0.0;
+
+    iStep        := 0;
+    iStepPrev    := 0;
+
+    tStepElapsed := T#0s;
+    tOnElapsed   := T#0s;
+    tOffElapsed  := T#0s;
+
+    RETURN;
+END_IF;
+
+
+// ---------------------------------------------------------
+// PAUZA PROGRAMOWA
+// ---------------------------------------------------------
+bPaused := bPause;
+
+IF bPause THEN
+    bCmd_Pump   := FALSE;
+    rSpeedSet   := 0.0;
+
+    // nie resetujemy iStep
+    // nie resetujemy tStepElapsed
+    // po zwolnieniu pauzy blok ma ruszyć dalej od tego miejsca
+
+    CASE iStep OF
+        10:
+            tOffElapsed := tStepElapsed;
+            tOnElapsed  := T#0s;
+
+        20:
+            tOnElapsed  := tStepElapsed;
+            tOffElapsed := T#0s;
+
+        ELSE
+            tOnElapsed  := T#0s;
+            tOffElapsed := T#0s;
+    END_CASE;
+
+    RETURN;
+END_IF;
+
+
+// ---------------------------------------------------------
+// RESET LICZNIKA CZASU PRZY ZMIANIE KROKU
+// ---------------------------------------------------------
+IF iStep <> iStepPrev THEN
+    tStepElapsed := T#0s;
+    iStepPrev := iStep;
+END_IF;
+
+
+// 0  -> inicjalizacja
+// 10 -> oczekiwanie na ponowne napełnienie kosza
+// 20 -> pompowanie do momentu wykrycia suchobiegu
+CASE iStep OF
+
+    0: // inicjalizacja po starcie automatu
+        bCmd_Pump   := FALSE;
+        rSpeedSet   := 0.0;
+        tStepElapsed := T#0s;
+        iStep := 10;
+
+    10: // postój / oczekiwanie na napełnianie kosza
+        bCmd_Pump   := FALSE;
+        rSpeedSet   := 0.0;
+
+        tStepElapsed := tStepElapsed + tCycle;
+
+        IF tStepElapsed >= tOff THEN
+            iStep := 20;
+        END_IF;
+
+    20: // dozowanie
+        bCmd_Pump   := TRUE;
+        rSpeedSet   := rSpeedAuto;
+
+        tStepElapsed := tStepElapsed + tCycle;
+
+        IF bPumpDryRunConfirmed THEN
+            bCmd_Pump   := FALSE;
+            rSpeedSet   := 0.0;
+            iStep := 10;
+        END_IF;
+
+    ELSE
+        iStep := 0;
+END_CASE;
+
+
+// ---------------------------------------------------------
+// MAPOWANIE CZASÓW ET
+// ---------------------------------------------------------
+CASE iStep OF
+    10:
+        tOffElapsed := tStepElapsed;
+        tOnElapsed  := T#0s;
+
+    20:
+        tOnElapsed  := tStepElapsed;
+        tOffElapsed := T#0s;
+
+    ELSE
+        tOnElapsed  := T#0s;
+        tOffElapsed := T#0s;
+END_CASE;]]></ST>
+    </Implementation>
+    <LineIds Name="FB_SludgeDosing">
+      <LineId Id="334" Count="4" />
+      <LineId Id="340" Count="20" />
+      <LineId Id="362" Count="32" />
+      <LineId Id="479" Count="1" />
+      <LineId Id="400" Count="4" />
+      <LineId Id="406" Count="5" />
+      <LineId Id="413" Count="9" />
+      <LineId Id="424" Count="5" />
+      <LineId Id="431" Count="23" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
