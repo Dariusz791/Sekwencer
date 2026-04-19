@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="ST_BigBagMassBalanceInValues" Id="{2a7141f8-738b-4ce5-9d22-1836de5877a5}">
+    <Declaration><![CDATA[TYPE ST_BigBagMassBalanceInValues :
+STRUCT
+    rBagActualMass          : REAL;   // aktualna masa worka przed cyklem
+    rBagStartMassManual     : REAL;   // ręcznie wpisana masa początkowa worka częściowo napełnionego
+    rMassBeforeDischarge    : REAL;   // stabilna masa przed wysypem
+    rMassAfterDischarge     : REAL;   // stabilna masa po wysypie
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

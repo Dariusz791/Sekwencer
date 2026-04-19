@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="ST_DischargeOutValues" Id="{ed5b25b9-ebdf-4ee9-b9ec-a6c854919d14}">
+    <Declaration><![CDATA[TYPE ST_DischargeOutValues :
+STRUCT
+    rSludgeDelta            : REAL;
+    rPerliteDelta           : REAL;
+    rLimeDelta              : REAL;
+    rDosedBatchActual       : REAL;
+    rMassBeforeDischarge    : REAL;
+    rMassAfterDischarge     : REAL;
+    rDischargeMass          : REAL;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

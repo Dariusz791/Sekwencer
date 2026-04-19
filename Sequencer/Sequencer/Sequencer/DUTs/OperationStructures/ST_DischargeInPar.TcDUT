@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="ST_DischargeInPar" Id="{d80c3f50-7b2d-4475-b02c-ecd35cee3f46}">
+    <Declaration><![CDATA[TYPE ST_DischargePar :
+STRUCT
+    rSludgeKg_SP        : REAL;
+    rPerliteKg_SP       : REAL;
+    rLimeKg_SP          : REAL;
+    tMixingTime         : TIME;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

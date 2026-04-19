@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
-  <DUT Name="ST_BigBagValues" Id="{b7b1c82e-aaa6-4c95-91b2-46a88ecff018}">
-    <Declaration><![CDATA[TYPE ST_BigBagValues :
+  <DUT Name="ST_DischargeInValues" Id="{41cfa616-8d8f-48a4-b857-2dfdb2f15729}">
+    <Declaration><![CDATA[TYPE ST_DischargeOutValues :
 STRUCT
-    rBagActualMass          : REAL;
-    rBagStartMassManual     : REAL;
+    rSludgeDelta            : REAL;
+    rPerliteDelta           : REAL;
+    rLimeDelta              : REAL;
+    rDosedBatchActual       : REAL;
     rMassBeforeDischarge    : REAL;
     rMassAfterDischarge     : REAL;
     rDischargeMass          : REAL;
-    rBagActualMassNew       : REAL;
-    rMassToTarget           : REAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

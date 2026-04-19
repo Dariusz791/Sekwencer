@@ -38,6 +38,11 @@ VAR_GLOBAL
 	{attribute 'OPC.UA.DA.StructuredType' := '1'}
 	{attribute 'OPC.UA.DA.Description' := 'g_stDischargeCmd (structured) type '} 
     g_stDischargeCmd      : ST_DischargeCmd;
+	
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'g_stDischargeCmd (structured) type '} 
+    g_stDischargeStatus      : ST_DischargeStatus;
 
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.StructuredType' := '1'}
@@ -55,16 +60,19 @@ VAR_GLOBAL
 	g_stBigBagCmd : ST_BigBagCmd;
 
 
+	{attribute 'OPC.UA.DA' := '1'}
+	{attribute 'OPC.UA.DA.StructuredType' := '1'}
+	{attribute 'OPC.UA.DA.Description' := 'g_stBigBagMassbalanceStatus (structured) type '} 
+    g_stBigBagMassbalanceStatus   : ST_BigBagMassBalanceStatus;
+	
+	
 
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.StructuredType' := '1'}
 	{attribute 'OPC.UA.DA.Description' := 'g_stFlapControl (structured) type '} 
     g_stFlapControl     : ST_FlapControl;
 	
-	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.StructuredType' := '1'}
-	{attribute 'OPC.UA.DA.Description' := 'g_stBigBagMassbalanceStatus (structured) type '} 
-    g_stBigBagMassbalanceStatus   : ST_BigBagMassBalanceStatus;
+
 	
 	
 	

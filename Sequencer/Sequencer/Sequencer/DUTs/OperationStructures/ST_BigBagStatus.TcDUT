@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="ST_BigBagPar_1" Id="{12e496d2-9e57-4a44-9cb6-3fb393222a2f}">
+    <Declaration><![CDATA[TYPE ST_BigBagPar_1 :
+STRUCT
+    rBagTargetMass_SP       : REAL;
+    rBagFullToleranceKg     : REAL;
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

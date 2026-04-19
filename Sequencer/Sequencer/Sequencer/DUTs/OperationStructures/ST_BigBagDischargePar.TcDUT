@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="ST_BigBagDischargePar" Id="{56a0ead3-0df0-462c-a875-3b3a08822a0a}">
+    <Declaration><![CDATA[TYPE ST_BigBagDischargePar :
+STRUCT
+    tTimeout                : TIME;   // opcjonalny maksymalny czas rozładunku
+	uiFlapPosFast_SP      : UINT;   // procentowy poziom otwarcia klapy dla szybkiego wyładunku
+    uiFlapPosFine_SP      : UINT;   // procentowy poziom otwarcia klapy dla dokładnego wyładunku
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

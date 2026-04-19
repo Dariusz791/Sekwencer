@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="ST_BigBagMassBalancePar" Id="{05ad6fab-2b43-4748-9dc1-42f35defbf51}">
+    <Declaration><![CDATA[TYPE ST_BigBagMassBalancePar :
+STRUCT
+    rBagTargetMass_SP       : REAL;   // masa docelowa worka
+    rBagFullToleranceKg     : REAL;   // tolerancja uznania worka za pełny
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>
