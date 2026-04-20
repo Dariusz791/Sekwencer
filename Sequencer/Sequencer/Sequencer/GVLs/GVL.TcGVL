@@ -37,7 +37,7 @@ VAR_GLOBAL
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.StructuredType' := '1'}
 	{attribute 'OPC.UA.DA.Description' := 'g_stDischargeCmd (structured) type '} 
-    g_stDischargeCmd      : ST_DischargeCmd;
+    g_stDischargeCmd      : ST_DischargeInPar;
 	
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.StructuredType' := '1'}
@@ -57,13 +57,13 @@ VAR_GLOBAL
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.StructuredType' := '1'}
 	{attribute 'OPC.UA.DA.Description' := 'g_stBigBagCmd (structured) type '} 
-	g_stBigBagCmd : ST_BigBagCmd;
+	g_stBigBagCmd : ST_BigBagMassBalanceInCmd;
 
 
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.StructuredType' := '1'}
 	{attribute 'OPC.UA.DA.Description' := 'g_stBigBagMassbalanceStatus (structured) type '} 
-    g_stBigBagMassbalanceStatus   : ST_BigBagMassBalanceStatus;
+    g_stBigBagMassbalanceStatus   : ST_BigBagMassBalanceOutValues;
 	
 	
 

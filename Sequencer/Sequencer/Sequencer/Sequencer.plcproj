@@ -16,6 +16,7 @@
     <Implicit_KindOfTask>{f571c5d8-f6d1-44a4-8efb-81c6e050fb19}</Implicit_KindOfTask>
     <Implicit_Jitter_Distribution>{785ed59b-a9f1-410a-9147-bf19ff6fc2f2}</Implicit_Jitter_Distribution>
     <LibraryReferences>{0e815fba-331e-43bc-bd6b-1e23a45f6403}</LibraryReferences>
+    <Released>false</Released>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DUTs\E_FlapState.TcDUT">
@@ -57,28 +58,55 @@
     <Compile Include="DUTs\MainSupervisorStructures\ST_ProcessValues.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\OperationsEnums\BigBagFillingEnums\E_BigBagFillingState.TcDUT">
+    <Compile Include="DUTs\OperationsEnums\BigBagDischarge\E_BigBagDischarge.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\OperationsEnums\BigBagFillingEnums\E_BigBagFillMode.TcDUT">
+    <Compile Include="DUTs\OperationsEnums\Discharge\E_DischargeState.TcTLEO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\OperationsEnums\DischargeStateEnums\E_DischargeState.TcTLEO">
+    <Compile Include="DUTs\OperationStructures\BigBagDischarge\ST_BigBagDischargeInCmd.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\OperationStructures\ST_BigBagCmd.TcDUT">
+    <Compile Include="DUTs\OperationStructures\BigBagDischarge\ST_BigBagDischargeOutValues.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\OperationStructures\ST_BigBagMassBalanceStatus.TcDUT">
+    <Compile Include="DUTs\OperationStructures\BigBagDischarge\ST_BigBagDischargePar.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\OperationStructures\ST_BigBagValues.TcDUT">
+    <Compile Include="DUTs\OperationStructures\BigBagDischarge\ST_BigBagDischargeStatus.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\OperationStructures\ST_DischargeCmd.TcDUT">
+    <Compile Include="DUTs\OperationStructures\BigBagMassBalance\ST_BigBagMassBalanceInCmd.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\OperationStructures\ST_BigBagDischargeStatus.TcDUT">
+    <Compile Include="DUTs\OperationStructures\BigBagMassBalance\ST_BigBagMassBalanceInValues.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\OperationStructures\BigBagMassBalance\ST_BigBagMassBalanceOutValues.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\OperationStructures\BigBagMassBalance\ST_BigBagMassBalancePar.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\OperationStructures\BigBagMassBalance\ST_BigBagMassBalanceStatus.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\OperationStructures\Discharge\ST_DischargeInCmd.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\OperationStructures\Discharge\ST_DischargeInPar.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\OperationStructures\Discharge\ST_DischargeInValues.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\OperationStructures\Discharge\ST_DischargeOutCmd.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\OperationStructures\Discharge\ST_DischargeOutValues.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\OperationStructures\Discharge\ST_DischargeStatus.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\ST_FlapControl.TcDUT">
@@ -112,9 +140,6 @@
     <Compile Include="POUs\FB\ProcessModules\FB_BigBagDischarge.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\FB\ProcessModules\FB_BigBagFilling.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="POUs\FB\ProcessModules\FB_BigBagMassBalance.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -146,11 +171,13 @@
     <Folder Include="DUTs\MainSupervisorEnums" />
     <Folder Include="DUTs\MainSupervisorEnums\RouteSelectionEnums" />
     <Folder Include="DUTs\MainSupervisorStructures" />
+    <Folder Include="DUTs\OperationsEnums\BigBagDischarge" />
     <Folder Include="DUTs\OperationStructures" />
     <Folder Include="DUTs\OperationsEnums" />
-    <Folder Include="DUTs\OperationsEnums\DischargeStateEnums" />
-    <Folder Include="DUTs\OperationsEnums\FeedStateEnums" />
-    <Folder Include="DUTs\OperationsEnums\BigBagFillingEnums" />
+    <Folder Include="DUTs\OperationsEnums\Discharge" />
+    <Folder Include="DUTs\OperationStructures\BigBagDischarge" />
+    <Folder Include="DUTs\OperationStructures\BigBagMassBalance" />
+    <Folder Include="DUTs\OperationStructures\Discharge" />
     <Folder Include="GVLs" />
     <Folder Include="POUs\FB" />
     <Folder Include="POUs\FB\MainProcessSupervisor" />

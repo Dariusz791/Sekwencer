@@ -3,7 +3,7 @@
   <DUT Name="ST_BigBagDischargeStatus" Id="{f05a5e9f-3290-4260-8376-93dcccda01e2}">
     <Declaration><![CDATA[TYPE ST_BigBagDischargeStatus :
 STRUCT
-    eFillMode       : E_BigBagFillMode; // wybrany tryb wysypu
+    eFillMode       : E_BigBagDischarge; // wybrany tryb wysypu
     bDone           : BOOL;             // zakończony etap wysypu
     sDiag           : T_MaxString;      // komunikat diagnostyczny
 END_STRUCT

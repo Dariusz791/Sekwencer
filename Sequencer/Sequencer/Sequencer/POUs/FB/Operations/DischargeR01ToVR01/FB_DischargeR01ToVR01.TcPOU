@@ -3,43 +3,45 @@
   <POU Name="FB_DischargeR01ToVR01" Id="{4b1663ee-af7d-432e-87d0-64d208450144}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_DischargeR01ToVR01
 VAR_INPUT
-	
-	bRun		  		   	: BOOL; 		//uruchomienie sequencera
-	bConfirmBagChange		: BOOL;   		// potwierdzenie wymiany Big Baga przez operatora
-	//nastawy wagowe
-	rSludgeKg_SP			: REAL;
-	rPerliteKg_Sp			: REAL;
-	rLimeKg_Sp				: REAL;		
-	//pomiar masy w VR01
-	rActualWeight			: REAL;			//masa aktualna z czujnika CV
+    // InCmd
+    bRun                    : BOOL;
+    bConfirmBagChange       : BOOL;
 
-	//czas mieszania
-	tMixingTime				: TIME;			//czas mieszania nastawiany
+    // Par
+    rSludgeKg_SP            : REAL;
+    rPerliteKg_SP           : REAL;
+    rLimeKg_SP              : REAL;
+    tMixingTime             : TIME;
+
+    // InValues
+    rActualWeight           : REAL;
 		
 END_VAR
 VAR_OUTPUT
-	//enum stanów
-	eStep 				 	: E_DischargeState;
-	
-	bAutoTakeOver 			: BOOL; 		//przejecie kontroli napedów
-	
-	rSludgeDelta    	   	: REAL;			//aktualne przysrosty
-	rPerliteDelta	       	: REAL;
-	rLimeDelta         		: REAL;
-	
-	rDosedBatchActual		: REAL;			//masa nowego wsadu z aktualnego cyklu
-	rMassBeforeDischarge 	: REAL; 		//stabilna masa wsadu przed wysypem, ustalona po dozowaniach i przed startem mieszania
-	rMassAfterDischarge	 	: REAL;			//stabilna masa w reaktorze po wyladunku
-	rDischargeMass 		 	: REAL;			//masa wyładowana do big-bag w cyklu
- 
-	bEn_SludgeDosing    	: BOOL;			//sterowanie blokiem dozowania osadu
-	bEn_PerliteDosing     	: BOOL;			//sterowanie blokiem dozowania perlitu
-	bEn_LimeDosing       	: BOOL;			//sterowanie blokiem dozowania wapna
-	bEn_Mixing           	: BOOL;			//sterowanie blokiem mieszania
-	bEn_AirExtraction   	: BOOL;			//sterowanie blokiem usuwania pyłu i pary
-	bEn_BigBagDischarge		: BOOL;			//sterowanie blokiem rozładunku do big bag
-	
-	sDiag		            : T_MaxString;  //komunikaty diagnostyczne
+    // Status
+    eStep                   : E_DischargeState;
+    bDone                   : BOOL;
+    bAutoTakeOver           : BOOL;
+    bWaitingForBagChange    : BOOL;
+    sDiag                   : T_MaxString;
+
+    // OutValues
+    rSludgeDelta            : REAL;
+    rPerliteDelta           : REAL;
+    rLimeDelta              : REAL;
+    rDosedBatchActual       : REAL;
+    rMassBeforeDischarge    : REAL;
+    rMassAfterDischarge     : REAL;
+    rDischargeMass          : REAL;
+
+    // OutCmd
+    bEn_SludgeDosing        : BOOL;
+    bEn_PerliteDosing       : BOOL;
+    bEn_LimeDosing          : BOOL;
+    bEn_Mixing              : BOOL;
+    bEn_AirExtraction       : BOOL;
+    bEn_BigBagDischarge     : BOOL;
+    bEn_BigBagMassBalance   : BOOL;
 	
 END_VAR                  	
 VAR  
@@ -100,14 +102,15 @@ fbCaptureLime(
 // ---------------------------------------------------------
 // DOMYŚLNE WYJŚCIA
 // ---------------------------------------------------------
-bAutoTakeOver       := FALSE;
-
-bEn_SludgeDosing    := FALSE;
-bEn_PerliteDosing   := FALSE;
-bEn_LimeDosing      := FALSE;
-bEn_Mixing          := FALSE;
-bEn_AirExtraction   := FALSE;
-bEn_BigBagDischarge := FALSE;
+bAutoTakeOver       	:= FALSE;
+                    	
+bEn_SludgeDosing    	:= FALSE;
+bEn_PerliteDosing   	:= FALSE;
+bEn_LimeDosing      	:= FALSE;
+bEn_Mixing          	:= FALSE;
+bEn_AirExtraction   	:= FALSE;
+bEn_BigBagDischarge 	:= FALSE;
+bEn_BigBagMassBalance	:= FALSE;
 
 sDiag               := '';
 
@@ -274,39 +277,21 @@ CASE eStep OF
 
 
     E_DischargeState.EVALUATE_DISCHARGE:
-        sDiag := 'Ocena efektu wyładunku';
+        sDiag := 'Ocena masy wyładunku';
         bAutoTakeOver := TRUE;
 
-        bEn_Mixing := FALSE;
-        bEn_AirExtraction := TRUE;
+        bEn_BigBagMassBalance := TRUE;
+        
 
         fbMixTimer(IN := FALSE, PT := tMixingTime);
         fbScaleSettleTimer(IN := FALSE, PT := tScaleSettleTime);
 
-        // -------------------------------------------------
-        // TU DOCZELOWO:
-        // - wywołanie bloku bilansu / oceny po stabilnej wadze
-        // - aktualizacja rDischargeMass
-        // - decyzja czy worek pełny czy nie
-        // -------------------------------------------------
-
-        // tymczasowo proste wyliczenie różnicy mas
-        IF bStepInit THEN
-            rDischargeMass := rMassBeforeDischarge - rMassAfterDischarge;
-
-            IF rDischargeMass < 0.0 THEN
-                rDischargeMass := 0.0;
-            END_IF;
+        IF GVL_BigBagMassBalance.g_stBigBagMassBalanceStatus.bBagChangeRequired THEN
+             eStep := E_DischargeState.WAIT_BAG_CHANGE;
+        ELSE
+             eStep := E_DischargeState.DONE;
         END_IF;
 
-        // przykładowo później:
-        // IF fbBigBagMassBalance.bBagChangeRequired THEN
-        //     eStep := E_DischargeState.WAIT_BAG_CHANGE;
-        // ELSE
-        //     eStep := E_DischargeState.DONE;
-        // END_IF;
-
-        eStep := E_DischargeState.DONE;
 
 
     E_DischargeState.WAIT_BAG_CHANGE:
@@ -314,17 +299,13 @@ CASE eStep OF
         bAutoTakeOver := TRUE;
 
         bEn_Mixing := FALSE;
-        bEn_AirExtraction := TRUE;
+        bEn_BigBagMassBalance := FALSE;
 
         fbMixTimer(IN := FALSE, PT := tMixingTime);
         fbScaleSettleTimer(IN := FALSE, PT := tScaleSettleTime);
 
-        // -------------------------------------------------
-        // TU DOCZELOWO:
-        // - potwierdzenie wymiany worka
-        // - przekazanie go do bloku bilansu masy
-        // -------------------------------------------------
-        IF bConfirmBagChange THEN
+
+        IF GVL_BigBagMassBalance.g_stBigBagMassBalanceInCmd.bConfirmBagChange THEN
             eStep := E_DischargeState.DONE;
         END_IF;
 
@@ -350,6 +331,7 @@ END_CASE;]]></ST>
     <LineIds Name="FB_DischargeR01ToVR01">
       <LineId Id="773" Count="47" />
       <LineId Id="1189" Count="0" />
+      <LineId Id="1285" Count="0" />
       <LineId Id="821" Count="18" />
       <LineId Id="1190" Count="2" />
       <LineId Id="840" Count="18" />
@@ -373,7 +355,10 @@ END_CASE;]]></ST>
       <LineId Id="930" Count="2" />
       <LineId Id="937" Count="0" />
       <LineId Id="1171" Count="2" />
-      <LineId Id="948" Count="110" />
+      <LineId Id="948" Count="48" />
+      <LineId Id="1014" Count="5" />
+      <LineId Id="1021" Count="11" />
+      <LineId Id="1037" Count="21" />
       <LineId Id="9" Count="0" />
     </LineIds>
   </POU>
