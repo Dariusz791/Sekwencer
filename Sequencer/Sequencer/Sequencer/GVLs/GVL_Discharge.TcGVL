@@ -3,6 +3,35 @@
   <GVL Name="GVL_Discharge" Id="{d5683444-3b89-464d-ab6c-20410f1e0276}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
+    // InCmd
+    {attribute 'OPC.UA.DA' := '1'}
+    {attribute 'OPC.UA.DA.StructuredType' := '1'}
+    g_stDischargeInCmd      : ST_DischargeInCmd;
+
+    // Par
+    {attribute 'OPC.UA.DA' := '1'}
+    {attribute 'OPC.UA.DA.StructuredType' := '1'}
+    g_stDischargePar        : ST_DischargePar;
+
+    // InValues
+    {attribute 'OPC.UA.DA' := '1'}
+    {attribute 'OPC.UA.DA.StructuredType' := '1'}
+    g_stDischargeInValues   : ST_DischargeInValues;
+
+    // Status
+    {attribute 'OPC.UA.DA' := '1'}
+    {attribute 'OPC.UA.DA.StructuredType' := '1'}
+    g_stDischargeStatus     : ST_DischargeStatus;
+
+    // OutValues
+    {attribute 'OPC.UA.DA' := '1'}
+    {attribute 'OPC.UA.DA.StructuredType' := '1'}
+    g_stDischargeOutValues  : ST_DischargeOutValues;
+
+    // OutCmd
+    {attribute 'OPC.UA.DA' := '1'}
+    {attribute 'OPC.UA.DA.StructuredType' := '1'}
+    g_stDischargeOutCmd     : ST_DischargeOutCmd;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

@@ -34,38 +34,8 @@ VAR_GLOBAL
 	{attribute 'OPC.UA.DA.Description' := 'g_stProcessValues (structured) type '} 
     g_stProcessValues     : ST_ProcessValues;
 	
-	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.StructuredType' := '1'}
-	{attribute 'OPC.UA.DA.Description' := 'g_stDischargeCmd (structured) type '} 
-    g_stDischargeCmd      : ST_DischargeInPar;
-	
-	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.StructuredType' := '1'}
-	{attribute 'OPC.UA.DA.Description' := 'g_stDischargeCmd (structured) type '} 
-    g_stDischargeStatus      : ST_DischargeStatus;
-
-	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.StructuredType' := '1'}
-	{attribute 'OPC.UA.DA.Description' := 'g_stBigBagDischargeStatus (structured) type '} 
-    g_stBigBagDischargeStatus   : ST_BigBagDischargeStatus;
-	
-	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.StructuredType' := '1'}
-	{attribute 'OPC.UA.DA.Description' := 'g_stBigBagValues (structured) type '} 
-    g_stBigBagValues     : ST_BigBagValues;
-	
-	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.StructuredType' := '1'}
-	{attribute 'OPC.UA.DA.Description' := 'g_stBigBagCmd (structured) type '} 
-	g_stBigBagCmd : ST_BigBagMassBalanceInCmd;
 
 
-	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.StructuredType' := '1'}
-	{attribute 'OPC.UA.DA.Description' := 'g_stBigBagMassbalanceStatus (structured) type '} 
-    g_stBigBagMassbalanceStatus   : ST_BigBagMassBalanceOutValues;
-	
-	
 
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.StructuredType' := '1'}
@@ -74,18 +44,6 @@ VAR_GLOBAL
 	
 
 	
-	
-	
-	//pomocnicze
-	g_rCycleMassActual		: REAL; // rzeczywista masa aktualnego cyklu przygotowanego do wysypu - DeltaLime + DeltaSludge + DeltaPerlit
-	g_rStartBagMass			: REAL; // masa startowa gdy podlozony bigBag nie jest pusty opcja przydatna w takich sytuacjach operator musi to podac
-	g_rReactorActualMass	: REAL;	// aktualna masa na wadze VR01 z czujnika tensometrycznego
-
-	
-	//pomocnicze
-	g_Enable				: BOOL; //start bloku 
-	g_bConfirmBagChange		: BOOL;  //sygnalizuj wymiane big bag
-	g_bLoadStartBagMass		: BOOL;  //załąduj mase stertowa big baga jelsi nie byl pusty w przyblizeniu
 	
 	
 END_VAR]]></Declaration>

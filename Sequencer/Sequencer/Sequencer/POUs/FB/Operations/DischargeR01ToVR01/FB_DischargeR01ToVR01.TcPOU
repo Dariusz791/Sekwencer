@@ -235,7 +235,7 @@ CASE eStep OF
         fbScaleSettleTimer(IN := FALSE, PT := tScaleSettleTime);
 
         // przejście do następnego kroku:
-        IF GVL.g_stBigBagDischargeStatus.bDone THEN
+        IF GVL_BigBagDischarge.g_stBigBagDischargeStatus.bDone THEN
              eStep := E_DischargeState.STOP_DRIVE_FOR_WEIGHING;
         END_IF;
 
@@ -244,17 +244,9 @@ CASE eStep OF
         sDiag := 'Stop napedu i zamykanie klapy';
         bAutoTakeOver := TRUE;
 
-        bEn_Mixing := FALSE;        // zatrzymanie mieszania przed ważeniem
-        bEn_AirExtraction := FALSE;  // odciąg może nadal pracować
-
         fbMixTimer(IN := FALSE, PT := tMixingTime);
         fbScaleSettleTimer(IN := FALSE, PT := tScaleSettleTime);
 
-        // -------------------------------------------------
-        // TU DOCZELOWO:
-        // - podrzędny blok wysypu powinien dostać komendę zamknięcia klapy
-        // - czekamy na potwierdzenie zamknięcia klapy z enkodera
-        // -------------------------------------------------
         IF GVL.g_stFlapControl.bIsClosed THEN
             eStep := E_DischargeState.WAIT_SCALE_SETTLE;
         END_IF;
@@ -263,9 +255,6 @@ CASE eStep OF
     E_DischargeState.WAIT_SCALE_SETTLE:
         sDiag := 'Stabilizacja wagi';
         bAutoTakeOver := TRUE;
-
-        bEn_Mixing := FALSE;        // napęd stoi
-        bEn_AirExtraction := TRUE;
 
         fbMixTimer(IN := FALSE, PT := tMixingTime);
         fbScaleSettleTimer(IN := TRUE, PT := tScaleSettleTime);
@@ -280,8 +269,7 @@ CASE eStep OF
         sDiag := 'Ocena masy wyładunku';
         bAutoTakeOver := TRUE;
 
-        bEn_BigBagMassBalance := TRUE;
-        
+        bEn_BigBagMassBalance := TRUE;       
 
         fbMixTimer(IN := FALSE, PT := tMixingTime);
         fbScaleSettleTimer(IN := FALSE, PT := tScaleSettleTime);
@@ -297,9 +285,6 @@ CASE eStep OF
     E_DischargeState.WAIT_BAG_CHANGE:
         sDiag := 'Wymien Big Bag';
         bAutoTakeOver := TRUE;
-
-        bEn_Mixing := FALSE;
-        bEn_BigBagMassBalance := FALSE;
 
         fbMixTimer(IN := FALSE, PT := tMixingTime);
         fbScaleSettleTimer(IN := FALSE, PT := tScaleSettleTime);
@@ -355,9 +340,14 @@ END_CASE;]]></ST>
       <LineId Id="930" Count="2" />
       <LineId Id="937" Count="0" />
       <LineId Id="1171" Count="2" />
-      <LineId Id="948" Count="48" />
+      <LineId Id="948" Count="6" />
+      <LineId Id="958" Count="2" />
+      <LineId Id="966" Count="7" />
+      <LineId Id="977" Count="14" />
+      <LineId Id="993" Count="3" />
       <LineId Id="1014" Count="5" />
-      <LineId Id="1021" Count="11" />
+      <LineId Id="1021" Count="4" />
+      <LineId Id="1029" Count="3" />
       <LineId Id="1037" Count="21" />
       <LineId Id="9" Count="0" />
     </LineIds>
