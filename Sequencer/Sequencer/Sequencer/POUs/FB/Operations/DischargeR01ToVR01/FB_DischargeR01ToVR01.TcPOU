@@ -5,6 +5,7 @@
 VAR_INPUT
     // InCmd
     bRun                    : BOOL;
+	bPause					: BOOL;	
     bConfirmBagChange       : BOOL;
 
     // Par
@@ -39,6 +40,7 @@ VAR_OUTPUT
 
     // OutCmd
     bEn_SludgeDosing        : BOOL;
+	bCmdPause_SludgeDosing	: BOOL; //Pausa dla SludgeDosing zatrzasniecie czasu napełniania kosza SP02
     bEn_PerliteDosing       : BOOL;
     bEn_LimeDosing          : BOOL;
     bEn_Mixing              : BOOL;
@@ -110,6 +112,7 @@ bWaitingForBagChange 	:= FALSE;
 
                     	
 bEn_SludgeDosing    	:= FALSE;
+bCmdPause_SludgeDosing	:= FALSE;
 bEn_PerliteDosing   	:= FALSE;
 bEn_LimeDosing      	:= FALSE;
 bEn_Mixing          	:= FALSE;
@@ -118,6 +121,26 @@ bEn_BigBagDischarge 	:= FALSE;
 bEn_BigBagMassBalance	:= FALSE;
 
 sDiag               := '';
+
+
+// ---------------------------------------------------------
+// PAUSE - zamrożenie sekwencji
+// ---------------------------------------------------------
+IF bRun AND bPause AND (eStep <> E_DischargeState.IDLE) AND (eStep <> E_DischargeState.DONE) THEN
+    bAutoTakeOver := TRUE;
+    sDiag := 'Pauza sekwencji';
+
+    // wyjątek: sludge dosing musi dostać pause bez utraty enable
+    IF eStep = E_DischargeState.DOSE_SLUDGE THEN
+        bEn_SludgeDosing := TRUE;
+        bCmdPause_SludgeDosing := TRUE;
+    END_IF;
+
+    fbMixTimer(IN := FALSE, PT := tMixingTime);
+    fbScaleSettleTimer(IN := FALSE, PT := tScaleSettleTime);
+
+    RETURN;
+END_IF;
 
 
 // ---------------------------------------------------------
@@ -149,6 +172,7 @@ CASE eStep OF
         bAutoTakeOver := TRUE;
 
         bEn_SludgeDosing := TRUE;
+		bCmdPause_SludgeDosing := FALSE;
 
         fbMixTimer(IN := FALSE, PT := tMixingTime);
         fbScaleSettleTimer(IN := FALSE, PT := tScaleSettleTime);
@@ -324,12 +348,19 @@ END_CASE;]]></ST>
       <LineId Id="773" Count="40" />
       <LineId Id="1348" Count="1" />
       <LineId Id="1346" Count="1" />
-      <LineId Id="814" Count="6" />
+      <LineId Id="814" Count="2" />
+      <LineId Id="1415" Count="0" />
+      <LineId Id="817" Count="3" />
       <LineId Id="1189" Count="0" />
       <LineId Id="1285" Count="0" />
-      <LineId Id="821" Count="18" />
+      <LineId Id="821" Count="1" />
+      <LineId Id="1418" Count="18" />
+      <LineId Id="1417" Count="0" />
+      <LineId Id="823" Count="16" />
       <LineId Id="1190" Count="2" />
-      <LineId Id="840" Count="18" />
+      <LineId Id="840" Count="10" />
+      <LineId Id="1416" Count="0" />
+      <LineId Id="851" Count="7" />
       <LineId Id="860" Count="20" />
       <LineId Id="882" Count="18" />
       <LineId Id="902" Count="0" />
