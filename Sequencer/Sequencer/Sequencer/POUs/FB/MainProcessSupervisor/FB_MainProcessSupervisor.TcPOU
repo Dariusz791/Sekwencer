@@ -32,6 +32,9 @@ VAR_OUTPUT
     eState                      : E_MainState;
     eOperation                  : E_MainOperation;
     eAutoPhase                  : E_AutoPhase;
+	
+	//komenda pausy dla bloku podrzednego
+	bCmdPauseDischargeR01ToVR01 : BOOL;
 
     // sprzężenie do RouteManager
     eAutoRouteReq               : E_Route;

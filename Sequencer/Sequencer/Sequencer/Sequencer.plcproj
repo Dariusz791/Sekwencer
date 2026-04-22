@@ -94,7 +94,7 @@
     <Compile Include="DUTs\OperationStructures\Discharge\ST_DischargeInCmd.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\OperationStructures\Discharge\ST_DischargeInPar.TcDUT">
+    <Compile Include="DUTs\OperationStructures\Discharge\ST_DischargePar.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\OperationStructures\Discharge\ST_DischargeInValues.TcDUT">
@@ -124,7 +124,7 @@
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>
-    <Compile Include="GVLs\GVL_Discharge.TcGVL">
+    <Compile Include="GVLs\GVL_DischargeR01ToVR01.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>

@@ -7,11 +7,6 @@
       <To>ST_DischargeStatus</To>
     </RenamedType>
     <RenamedType>
-      <Type guid="d80c3f50-7b2d-4475-b02c-ecd35cee3f46">ST_DISCHARGEINCMD</Type>
-      <From>ST_DischargeCmd</From>
-      <To>ST_DischargeInPar</To>
-    </RenamedType>
-    <RenamedType>
       <Type guid="663ab9aa-da80-4713-a100-76597b8f569f">ST_DISCHARGEINCMD_1</Type>
       <From>ST_DischargeInCmd_1</From>
       <To>ST_DischargeInCmd</To>
@@ -85,6 +80,16 @@
       <Type guid="1e732184-5e66-4011-b009-6363e29cd634">E_BIGBAGFILLMODE</Type>
       <From>E_BigBagFillMode</From>
       <To>E_BigBagDischarge</To>
+    </RenamedType>
+    <RenamedType>
+      <Type guid="d80c3f50-7b2d-4475-b02c-ecd35cee3f46">ST_DISCHARGEINPAR</Type>
+      <From>ST_DischargeCmd</From>
+      <To>ST_DischargePar</To>
+    </RenamedType>
+    <RenamedType>
+      <Type guid="d5683444-3b89-464d-ab6c-20410f1e0276">GVL_DISCHARGE</Type>
+      <From>GVL_Discharge</From>
+      <To>GVL_DischargeR01ToVR01</To>
     </RenamedType>
   </Renames>
 </Refactors>

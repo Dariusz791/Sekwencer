@@ -3,7 +3,7 @@
   <DUT Name="ST_BigBagDischargePar" Id="{56a0ead3-0df0-462c-a875-3b3a08822a0a}">
     <Declaration><![CDATA[TYPE ST_BigBagDischargePar :
 STRUCT
-    tTimeout                : TIME;   // opcjonalny maksymalny czas rozładunku
+    tBulkDischargeTime_SP	: TIME;	  // opcjonalny maksymalny czas rozładunku	
 	uiFlapPosFast_SP        : UINT;   // procentowy poziom otwarcia klapy dla szybkiego wyładunku
     uiFlapPosFine_SP        : UINT;   // procentowy poziom otwarcia klapy dla dokładnego wyładunku
 END_STRUCT

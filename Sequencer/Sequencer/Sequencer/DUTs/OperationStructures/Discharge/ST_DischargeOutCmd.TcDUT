@@ -4,6 +4,7 @@
     <Declaration><![CDATA[TYPE ST_DischargeOutCmd :
 STRUCT
     bEn_SludgeDosing   		: BOOL; // sterowanie blokiem dozowania osadu
+	bCmdPause_SludgeDosing	: BOOL;	// sterowanie pausa w dozowaniu osadu zatrzasniecie czasów konieczne
     bEn_PerliteDosing  		: BOOL; // sterowanie blokiem dozowania perlitu
     bEn_LimeDosing     		: BOOL; // sterowanie blokiem dozowania wapna
     bEn_Mixing         		: BOOL; // sterowanie blokiem mieszania

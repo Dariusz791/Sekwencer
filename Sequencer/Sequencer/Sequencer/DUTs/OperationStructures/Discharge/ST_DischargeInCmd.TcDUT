@@ -4,6 +4,7 @@
     <Declaration><![CDATA[TYPE ST_DischargeInCmd :
 STRUCT
     bRun                : BOOL;
+	bPause				: BOOL;
     bConfirmBagChange   : BOOL;
 END_STRUCT
 END_TYPE
