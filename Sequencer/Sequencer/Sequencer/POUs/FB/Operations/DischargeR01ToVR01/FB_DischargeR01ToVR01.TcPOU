@@ -4,62 +4,64 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_DischargeR01ToVR01
 VAR_INPUT
     // InCmd
-    bRun                    : BOOL;
-	bPause					: BOOL;	
-    bConfirmBagChange       : BOOL;
-
-    // Par
-    rSludgeKg_SP            : REAL;
-    rPerliteKg_SP           : REAL;
-    rLimeKg_SP              : REAL;
-    tMixingTime             : TIME;
-
-    // InValues
-    rActualWeight           : REAL;
-	bBigBagDischargeDone 	: BOOL;
-	bBagChangeRequired 		: BOOL;
-	bFlapClosed 			: BOOL;
+    bRun                    	: BOOL;
+	bPause						: BOOL;	
+ 
+                            	
+    // Par                  	
+    rSludgeKg_SP            	: REAL;
+    rPerliteKg_SP           	: REAL;
+    rLimeKg_SP              	: REAL;
+    tMixingTime             	: TIME;
+                            	
+    // InValues             	
+    rActualWeight           	: REAL;	
+	bBagChangeRequired 			: BOOL;
+	bFlapClosed 				: BOOL;
+	bBigBagDischargeDone 		: BOOL;  //to nie komenda tylko informacja zwrotna od operatora ze zmienił bigbag
+	
 		
 END_VAR
 VAR_OUTPUT
     // Status
-    eStep                   : E_DischargeState;
-    bDone                   : BOOL;
-    bAutoTakeOver           : BOOL;
-    bWaitingForBagChange    : BOOL;
-    sDiag                   : T_MaxString;
-
-    // OutValues
-    rSludgeDelta            : REAL;
-    rPerliteDelta           : REAL;
-    rLimeDelta              : REAL;
-    rDosedBatchActual       : REAL;
-    rMassBeforeDischarge    : REAL;
-    rMassAfterDischarge     : REAL;
-    rDischargeMass          : REAL;
-
-    // OutCmd
-    bEn_SludgeDosing        : BOOL;
-	bCmdPause_SludgeDosing	: BOOL; //Pausa dla SludgeDosing zatrzasniecie czasu napełniania kosza SP02
-    bEn_PerliteDosing       : BOOL;
-    bEn_LimeDosing          : BOOL;
-    bEn_Mixing              : BOOL;
-    bEn_AirExtraction       : BOOL;
-    bEn_BigBagDischarge     : BOOL;
-    bEn_BigBagMassBalance   : BOOL;
+    eStep                   	: E_DischargeState;
+    bDone                   	: BOOL;
+    bAutoTakeOver           	: BOOL;
+    bWaitingForBagChange    	: BOOL;
+    sDiag                   	: T_MaxString;
+                            	
+    // OutValues            	
+    rSludgeDelta            	: REAL;
+    rPerliteDelta           	: REAL;
+    rLimeDelta              	: REAL;
+    rDosedBatchActual       	: REAL;
+    rMassBeforeDischarge    	: REAL;
+    rMassAfterDischarge     	: REAL;
+    rDischargeMass          	: REAL;
+                            	
+    // OutCmd               	
+    bEn_SludgeDosing        	: BOOL;
+	bCmdPause_SludgeDosing		: BOOL; //Pausa dla SludgeDosing zatrzasniecie czasu napełniania kosza SP02
+    bEn_PerliteDosing       	: BOOL;
+    bEn_LimeDosing          	: BOOL;
+    bEn_Mixing              	: BOOL;
+    bEn_AirExtraction       	: BOOL;
+    bEn_BigBagDischarge     	: BOOL;
+    bEn_BigBagMassBalance   	: BOOL;
+	bEn_BigBagMassChangeHandler : BOOL;
 	
 END_VAR                  	
 VAR  
-	eStepPrev				: E_DischargeState;         
-	bStepInit				: BOOL;
-	           	
-	fbMixTimer				: TON; //Timery
-	fbScaleSettleTimer		: TON;
-	tScaleSettleTime 		: TIME:= T#2S;
-	
-	fbCaptureSludge  		: FB_CaptureWeight; //helpery
-	fbCapturePerlite     	: FB_CaptureWeight;
-	fbCaptureLime           : FB_CaptureWeight;
+	eStepPrev					: E_DischargeState;         
+	bStepInit					: BOOL;
+	           	            	
+	fbMixTimer					: TON; //Timery
+	fbScaleSettleTimer			: TON;
+	tScaleSettleTime 			: TIME:= T#2S;
+	                        	
+	fbCaptureSludge  			: FB_CaptureWeight; //helpery
+	fbCapturePerlite     		: FB_CaptureWeight;
+	fbCaptureLime           	: FB_CaptureWeight;
 	
 END_VAR
 ]]></Declaration>
@@ -105,20 +107,21 @@ fbCaptureLime(
 // ---------------------------------------------------------
 // DOMYŚLNE WYJŚCIA
 // ---------------------------------------------------------
-bAutoTakeOver       	:= FALSE;
-
-bDone					:= FALSE;
-bWaitingForBagChange 	:= FALSE;
-
-                    	
-bEn_SludgeDosing    	:= FALSE;
-bCmdPause_SludgeDosing	:= FALSE;
-bEn_PerliteDosing   	:= FALSE;
-bEn_LimeDosing      	:= FALSE;
-bEn_Mixing          	:= FALSE;
-bEn_AirExtraction   	:= FALSE;
-bEn_BigBagDischarge 	:= FALSE;
-bEn_BigBagMassBalance	:= FALSE;
+bAutoTakeOver       		:= FALSE;
+                        	
+bDone						:= FALSE;
+bWaitingForBagChange 		:= FALSE;
+                        	
+                    		
+bEn_SludgeDosing    		:= FALSE;
+bCmdPause_SludgeDosing		:= FALSE;
+bEn_PerliteDosing   		:= FALSE;
+bEn_LimeDosing      		:= FALSE;
+bEn_Mixing          		:= FALSE;
+bEn_AirExtraction   		:= FALSE;
+bEn_BigBagDischarge 		:= FALSE;
+bEn_BigBagMassBalance		:= FALSE;
+bEn_BigBagMassChangeHandler := FALSE;
 
 sDiag               := '';
 
@@ -172,7 +175,6 @@ CASE eStep OF
         bAutoTakeOver := TRUE;
 
         bEn_SludgeDosing := TRUE;
-		bCmdPause_SludgeDosing := FALSE;
 
         fbMixTimer(IN := FALSE, PT := tMixingTime);
         fbScaleSettleTimer(IN := FALSE, PT := tScaleSettleTime);
@@ -317,12 +319,14 @@ CASE eStep OF
         bAutoTakeOver := TRUE;
 		
 		bWaitingForBagChange := TRUE;
+		bEn_BigBagMassChangeHandler := TRUE;
+		
         
 		fbMixTimer(IN := FALSE, PT := tMixingTime);
         fbScaleSettleTimer(IN := FALSE, PT := tScaleSettleTime);
 		
-
-        IF bConfirmBagChange THEN
+		
+        IF bBigBagDischargeDone THEN
             eStep := E_DischargeState.DONE;
         END_IF;
 
@@ -353,14 +357,13 @@ END_CASE;]]></ST>
       <LineId Id="817" Count="3" />
       <LineId Id="1189" Count="0" />
       <LineId Id="1285" Count="0" />
+      <LineId Id="1499" Count="0" />
       <LineId Id="821" Count="1" />
       <LineId Id="1418" Count="18" />
       <LineId Id="1417" Count="0" />
       <LineId Id="823" Count="16" />
       <LineId Id="1190" Count="2" />
-      <LineId Id="840" Count="10" />
-      <LineId Id="1416" Count="0" />
-      <LineId Id="851" Count="7" />
+      <LineId Id="840" Count="18" />
       <LineId Id="860" Count="20" />
       <LineId Id="882" Count="18" />
       <LineId Id="902" Count="0" />
@@ -392,10 +395,13 @@ END_CASE;]]></ST>
       <LineId Id="1021" Count="4" />
       <LineId Id="1029" Count="0" />
       <LineId Id="1351" Count="0" />
+      <LineId Id="1503" Count="0" />
+      <LineId Id="1501" Count="0" />
       <LineId Id="1030" Count="0" />
       <LineId Id="1350" Count="0" />
       <LineId Id="1031" Count="1" />
-      <LineId Id="1037" Count="8" />
+      <LineId Id="1500" Count="0" />
+      <LineId Id="1038" Count="7" />
       <LineId Id="1048" Count="2" />
       <LineId Id="1344" Count="0" />
       <LineId Id="1051" Count="7" />

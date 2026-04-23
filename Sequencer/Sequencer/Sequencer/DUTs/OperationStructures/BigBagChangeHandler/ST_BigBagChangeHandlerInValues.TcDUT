@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="ST_BigBagChangeHandlerInValues" Id="{753b582b-19c3-4bd0-8e9f-aeced2ed9937}">
+    <Declaration><![CDATA[TYPE ST_BigBagChangeHandlerInValues :
+STRUCT
+    rBagStartMassManual : REAL;   // ręcznie wpisana masa początkowa nowego worka
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

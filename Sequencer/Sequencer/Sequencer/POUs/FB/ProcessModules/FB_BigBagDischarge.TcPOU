@@ -124,7 +124,7 @@ CASE eFillMode OF
         // Ten blok kończy tylko etap wysypu.
         // Na start przyjmujemy ten sam warunek masowy co dla batcha,
         // a właściwa ocena worka nastąpi później po zatrzymaniu napędu i stabilizacji wagi.
-        IF rDischargedMassStep >= (rDosedBatchActual - rBatchDischargeToleranceKg) THEN
+        IF rDischargedMassStep >= (rMassMissingToBagTarget - rBatchDischargeToleranceKg) THEN
             uiFlapPosSp := 0; // zamknij klapę
             bDone := TRUE;
         END_IF;

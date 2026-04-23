@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <POU Name="FB_BigBagChangeHandler" Id="{41aa2966-882f-441f-a9e7-729c566d5660}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_BigBagChangeHandler
+VAR_INPUT
+	//InCmd
+    bEnable   			 : BOOL;
+	bConfirmBagChange	 : BOOL;
+	
+	//InValues
+    rBagStartMassManual  : REAL;
+	
+END_VAR
+
+VAR_OUTPUT
+	//OutValues
+    rBagActualMass       : REAL;
+	
+	//Status
+    bDone                : BOOL;
+    sDiag                : T_MaxString;
+END_VAR
+
+VAR
+    bConfirmPrev          : BOOL := FALSE;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF NOT bEnable THEN
+    bDone := FALSE;
+    sDiag := 'BigBagChangeHandler idle';
+    bConfirmPrev := FALSE;
+    RETURN;
+END_IF;
+
+// domyślna diagnostyka przy aktywnym bloku
+IF NOT bDone THEN
+    sDiag := 'Oczekiwanie na potwierdzenie wymiany worka';
+END_IF;
+
+// reakcja tylko na zbocze potwierdzenia
+IF bConfirmBagChange AND NOT bConfirmPrev THEN
+
+    IF rBagStartMassManual > 0.0 THEN
+        rBagActualMass := rBagStartMassManual;
+        sDiag := 'Nowy worek z masa startowa';
+    ELSE
+        rBagActualMass := 0.0;
+        sDiag := 'Nowy pusty worek';
+    END_IF;
+
+    bDone := TRUE;
+END_IF;
+
+bConfirmPrev := bConfirmBagChange;]]></ST>
+    </Implementation>
+    <LineIds Name="FB_BigBagChangeHandler">
+      <LineId Id="76" Count="25" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

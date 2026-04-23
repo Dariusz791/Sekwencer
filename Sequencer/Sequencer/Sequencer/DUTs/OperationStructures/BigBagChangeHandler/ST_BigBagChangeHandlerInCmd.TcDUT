@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="ST_BigBagChangeHandlerInCmd" Id="{cf7b336d-c889-4935-8263-3d19db32019c}">
+    <Declaration><![CDATA[TYPE ST_BigBagChangeHandlerInCmd :
+STRUCT
+    bEnable             : BOOL;   // aktywacja bloku obsługi zmiany worka
+    bConfirmBagChange   : BOOL;   // potwierdzenie operatora, że nowy worek został założony
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
