@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.74">
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.75">
 	<Project ProjectGUID="{63ABA508-3D35-4342-8A24-13CBECDD9295}" TargetNetId="39.139.122.3.1.1" ShowHideConfigurations="#x6">
 		<System>
 			<Licenses>
@@ -15,7 +15,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{2123B3CD-885D-4ED3-B534-9C921086099F}" Name="Sequencer" PrjFilePath="Sequencer\Sequencer.plcproj" TmcFilePath="Sequencer\Sequencer.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" CopyTmcToTarget="true" CopyTpyToTarget="false" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Sequencer\Sequencer.tmc" TmcHash="{8F678095-2A19-212F-8934-A51CAE29CF29}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Sequencer\Sequencer.tmc" TmcHash="{0CB66141-3C0D-528C-9DAC-E0E7AF96E495}">
 					<Name>Sequencer Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>
