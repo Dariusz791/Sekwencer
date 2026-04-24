@@ -11,8 +11,7 @@ TYPE E_DischargeState :
     DOSE_LIME,               // dozowanie wapna
     MIXING,                  // mieszanie wsadu przed wysypem
 
-    DISCHARGE_RUN,           // właściwy wysyp do Big Baga
-    STOP_DRIVE_FOR_WEIGHING, // zatrzymanie napędu i zamykanie klapy przed ważeniem
+    DISCHARGE_RUN,           // właściwy wysyp do Big Baga i zamkniecie klapy
     WAIT_SCALE_SETTLE,       // oczekiwanie na ustabilizowanie wagi
     EVALUATE_DISCHARGE,      // ocena efektu wysypu po stabilizacji wagi
 
@@ -52,11 +51,6 @@ END_TYPE
             </o>
             <o>
               <v n="TextID">"DISCHARGE_RUN"</v>
-              <v n="TextDefault">""</v>
-              <l n="LanguageTexts" t="ArrayList" />
-            </o>
-            <o>
-              <v n="TextID">"STOP_DRIVE_FOR_WEIGHING"</v>
               <v n="TextDefault">""</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>

@@ -3,22 +3,33 @@
   <POU Name="FB_BigBagMassBalance" Id="{13a3bef7-ceaa-48bb-8fc8-d81e68bdb775}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_BigBagMassBalance
 VAR_INPUT
+	//InCmd
     bEnable                  : BOOL;
 	
+	//InValues
     rBagActualMass           : REAL;   // masa worka przed aktualnym cyklem
-    rBagTargetMass_SP        : REAL;   // target worka   
 	rMassBeforeDischarge	 : REAL;   // masa przed zrzutem stabilnie zważona	
     rMassAfterDischarge 	 : REAL;   // masa po zrzucie stabilnie zważona 	
 	rBagFullToleranceKg      : REAL;   // tolerancja uznania worka za pełny
+	
+	//Par
+    rBagTargetMass_SP        : REAL;   // target worka
+   
 END_VAR
 VAR_OUTPUT
-    rBagActualMassNew        : REAL;   // nowa masa worka po aktualnym cyklu
-	rLastFullBagMass		 : REAL;   // masa worka po napełnieniu widoczna do momentu napełnienia nowego worka		
-    rMassToTarget            : REAL;   // ile brakuje do targetu
+
+	//Status
     bBagFull                 : BOOL;   // worek osiągnął target
     bBagChangeRequired       : BOOL;   // wymagana wymiana worka
     bDone                    : BOOL;
     sDiag                    : T_MaxString;
+
+	//OutValues
+    rBagActualMassNew        : REAL;   // nowa masa worka po aktualnym cyklu
+	rLastFullBagMass		 : REAL;   // masa ostatniego napełnionego BigBag		
+    rMassToTarget            : REAL;   // ile brakuje do targetu
+	
+
 END_VAR
 VAR
 	rDischargeMass           : REAL;   // masa rzeczywiście zrzucona po stabilizacji

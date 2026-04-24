@@ -6,8 +6,7 @@ VAR_INPUT
     // InCmd
     bRun                    	: BOOL;
 	bPause						: BOOL;	
- 
-                            	
+                           	
     // Par                  	
     rSludgeKg_SP            	: REAL;
     rPerliteKg_SP           	: REAL;
@@ -16,10 +15,10 @@ VAR_INPUT
                             	
     // InValues             	
     rActualWeight           	: REAL;	
-	bBagChangeRequired 			: BOOL;
-	bFlapClosed 				: BOOL;
-	bBigBagDischargeDone 		: BOOL;  //to nie komenda tylko informacja zwrotna od operatora ze zmienił bigbag
-	
+	bBigBagDischargeDone 		: BOOL;  // Potwierdzenie wyladowania bigbag i zamkniecia klapy
+	bBagChangeRequired 			: BOOL;	 // Żadanie wymiany BigBag z FB_BigBagMassBalance		
+	bBigBagChangeHandlerDone	: BOOL;  // Potwierdzenie wymiany bigbag i ustawienia nowej masy startowej, domyślnie startowa 0.0 chyba, że operator poda inaczej 
+
 		
 END_VAR
 VAR_OUTPUT
@@ -57,7 +56,7 @@ VAR
 	           	            	
 	fbMixTimer					: TON; //Timery
 	fbScaleSettleTimer			: TON;
-	tScaleSettleTime 			: TIME:= T#2S;
+	tScaleSettleTime 			: TIME:= T#5S;
 	                        	
 	fbCaptureSludge  			: FB_CaptureWeight; //helpery
 	fbCapturePerlite     		: FB_CaptureWeight;
@@ -266,19 +265,7 @@ CASE eStep OF
         fbScaleSettleTimer(IN := FALSE, PT := tScaleSettleTime);
 
         IF bBigBagDischargeDone THEN
-             eStep := E_DischargeState.STOP_DRIVE_FOR_WEIGHING;
-        END_IF;
-
-
-    E_DischargeState.STOP_DRIVE_FOR_WEIGHING:
-        sDiag := 'Stop napedu i zamykanie klapy';
-        bAutoTakeOver := TRUE;
-
-        fbMixTimer(IN := FALSE, PT := tMixingTime);
-        fbScaleSettleTimer(IN := FALSE, PT := tScaleSettleTime);
-
-        IF bFlapClosed THEN
-            eStep := E_DischargeState.WAIT_SCALE_SETTLE;
+             eStep := E_DischargeState.WAIT_SCALE_SETTLE;
         END_IF;
 
 
@@ -326,7 +313,7 @@ CASE eStep OF
         fbScaleSettleTimer(IN := FALSE, PT := tScaleSettleTime);
 		
 		
-        IF bBigBagDischargeDone THEN
+        IF bBigBagChangeHandlerDone THEN
             eStep := E_DischargeState.DONE;
         END_IF;
 
@@ -384,9 +371,8 @@ END_CASE;]]></ST>
       <LineId Id="930" Count="2" />
       <LineId Id="937" Count="0" />
       <LineId Id="1172" Count="1" />
-      <LineId Id="948" Count="6" />
-      <LineId Id="958" Count="2" />
-      <LineId Id="966" Count="7" />
+      <LineId Id="948" Count="2" />
+      <LineId Id="971" Count="2" />
       <LineId Id="977" Count="5" />
       <LineId Id="1352" Count="1" />
       <LineId Id="983" Count="8" />

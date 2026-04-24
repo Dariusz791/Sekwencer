@@ -3,14 +3,15 @@
   <DUT Name="ST_DischargeOutCmd" Id="{c56eda04-9ae3-40e2-abf8-d08e311615b1}">
     <Declaration><![CDATA[TYPE ST_DischargeOutCmd :
 STRUCT
-    bEn_SludgeDosing   		: BOOL; // sterowanie blokiem dozowania osadu
-	bCmdPause_SludgeDosing	: BOOL;	// sterowanie pausa w dozowaniu osadu zatrzasniecie czasów konieczne
-    bEn_PerliteDosing  		: BOOL; // sterowanie blokiem dozowania perlitu
-    bEn_LimeDosing     		: BOOL; // sterowanie blokiem dozowania wapna
-    bEn_Mixing         		: BOOL; // sterowanie blokiem mieszania
-    bEn_AirExtraction  		: BOOL; // sterowanie blokiem usuwania pyłu i pary
-	bEn_BigBagDischarge		: BOOL; //sterowanie blokiem rozładunku do big bag
-	bEn_BigBagMassBalance	: BOOL; // sterowanie blokiem bilansu masy w worku
+    bEn_SludgeDosing   			: BOOL; // sterowanie blokiem dozowania osadu
+	bCmdPause_SludgeDosing		: BOOL;	// sterowanie pausa w dozowaniu osadu zatrzasniecie czasów konieczne
+    bEn_PerliteDosing  			: BOOL; // sterowanie blokiem dozowania perlitu
+    bEn_LimeDosing     			: BOOL; // sterowanie blokiem dozowania wapna
+    bEn_Mixing         			: BOOL; // sterowanie blokiem mieszania
+    bEn_AirExtraction  			: BOOL; // sterowanie blokiem usuwania pyłu i pary
+	bEn_BigBagDischarge			: BOOL; // sterowanie blokiem rozładunku do big bag
+	bEn_BigBagMassBalance		: BOOL; // sterowanie blokiem bilansu masy w worku
+	bEn_BigBagMassChangeHandler : BOOL; // sterowanie blokiem wymiany worka i zapisu wartości poczatkowej do worka jesli rozna od zera
 END_STRUCT
 END_TYPE
 ]]></Declaration>
