@@ -174,4 +174,13 @@ Promotic/Data/
 # Compiled/output files
 *.xob
 
-
+# TwinCAT - keep project configuration
+!*.sln
+!*.tsproj
+!*.plcproj
+!*.xti
+!*.TcPOU
+!*.TcGVL
+!*.TcDUT
+!*.tmc
+!*.tpy
