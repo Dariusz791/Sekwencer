@@ -3,6 +3,12 @@
   <DUT Name="ST_BigBagActualMassStoreInValues" Id="{f970537c-a278-40cc-be46-3f6ffeeb5bc6}">
     <Declaration><![CDATA[TYPE ST_BigBagActualMassStoreInValues :
 STRUCT
+    bBigBagChangeHandlerDone : BOOL; // zakończona inicjalizacja nowego worka
+    rBagInitialMass          : REAL; // masa początkowa nowego worka
+
+    bMassBalanceDone         : BOOL; // zakończony bilans masy worka po cyklu
+    bBagChangeRequired       : BOOL; // bilans wykazał konieczność wymiany worka
+    rBagActualMassNew        : REAL; // masa worka po aktualnym cyklu
 END_STRUCT
 END_TYPE
 ]]></Declaration>

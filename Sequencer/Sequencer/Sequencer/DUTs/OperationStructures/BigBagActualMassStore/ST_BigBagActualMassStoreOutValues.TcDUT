@@ -3,6 +3,7 @@
   <DUT Name="ST_BigBagActualMassStoreOutValues" Id="{f763a921-cae9-4706-9f3b-f26d446521e9}">
     <Declaration><![CDATA[TYPE ST_BigBagActualMassStoreOutValues :
 STRUCT
+    rBagActualMass : REAL; // aktualna masa worka jako jedno źródło prawdy
 END_STRUCT
 END_TYPE
 ]]></Declaration>

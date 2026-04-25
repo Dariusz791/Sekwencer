@@ -64,10 +64,22 @@
     <Compile Include="DUTs\OperationsEnums\Discharge\E_DischargeState.TcTLEO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\OperationStructures\BigBagActualMassStore\ST_BigBagActualMassStoreInValues.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\OperationStructures\BigBagActualMassStore\ST_BigBagActualMassStoreOutValues.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\OperationStructures\BigBagActualMassStore\ST_BigBagActualMassStoreStatus.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\OperationStructures\BigBagChangeHandler\ST_BigBagChangeHandlerInCmd.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\OperationStructures\BigBagChangeHandler\ST_BigBagChangeHandlerInValues.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\OperationStructures\BigBagChangeHandler\ST_BigBagChangeHandlerOutValues.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\OperationStructures\BigBagChangeHandler\ST_BigBagChangeHandlerStatus.TcDUT">
@@ -122,6 +134,10 @@
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>
+    <Compile Include="GVLs\GVL_BigBagActualMassStore.TcGVL">
+      <SubType>Code</SubType>
+      <LinkAlways>true</LinkAlways>
+    </Compile>
     <Compile Include="GVLs\GVL_BigBagChangeHandler.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
@@ -157,6 +173,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FB\ProcessModules\FB_AirExtraction.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FB\ProcessModules\FB_BigBagActualMassStore.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\FB\ProcessModules\FB_BigBagChangeHandler.TcPOU">
@@ -204,6 +223,7 @@
     <Folder Include="DUTs\OperationStructures\BigBagMassBalance" />
     <Folder Include="DUTs\OperationStructures\Discharge" />
     <Folder Include="DUTs\OperationStructures\BigBagChangeHandler" />
+    <Folder Include="DUTs\OperationStructures\BigBagActualMassStore" />
     <Folder Include="GVLs" />
     <Folder Include="POUs\FB" />
     <Folder Include="POUs\FB\MainProcessSupervisor" />

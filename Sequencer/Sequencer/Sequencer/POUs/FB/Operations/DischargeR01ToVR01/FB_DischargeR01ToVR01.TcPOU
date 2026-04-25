@@ -121,8 +121,8 @@ bEn_Mixing          		:= FALSE;
 bEn_AirExtraction   		:= FALSE;
 bEn_BigBagDischarge 		:= FALSE;
 bEn_BigBagMassBalance		:= FALSE;
-bEn_BigBagMassChangeHandler := FALSE;
-bEn_BigBagActualMassStore   := FALSE;
+bEn_BigBagChangeHandler 	:= FALSE;
+bEn_BigBagActualMassStore   := TRUE;	//cały czas sledzimy mase w worku
 
 sDiag               := '';
 
@@ -308,7 +308,7 @@ CASE eStep OF
         bAutoTakeOver := TRUE;
 		
 		bWaitingForBagChange := TRUE;
-		bEn_BigBagMassChangeHandler := TRUE;
+		bEn_BigBagChangeHandler := TRUE;
 		
         
 		fbMixTimer(IN := FALSE, PT := tMixingTime);

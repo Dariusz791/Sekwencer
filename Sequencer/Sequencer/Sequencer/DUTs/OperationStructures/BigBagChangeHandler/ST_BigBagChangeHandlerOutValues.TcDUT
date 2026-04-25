@@ -3,6 +3,7 @@
   <DUT Name="ST_BigBagChangeHandlerOutValues" Id="{f115d36f-8cc8-47c2-a564-390b08c33571}">
     <Declaration><![CDATA[TYPE ST_BigBagChangeHandlerOutValues :
 STRUCT
+	    rBagInitialMass 	 : REAL; // masa początkowa aktualnie założonego worka zadana przez operatora ze SCADA
 END_STRUCT
 END_TYPE
 ]]></Declaration>

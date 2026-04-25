@@ -11,7 +11,7 @@ STRUCT
     bEn_AirExtraction  			: BOOL; // sterowanie blokiem usuwania pyłu i pary
 	bEn_BigBagDischarge			: BOOL; // sterowanie blokiem rozładunku do big bag
 	bEn_BigBagMassBalance		: BOOL; // sterowanie blokiem bilansu masy w worku
-	bEn_BigBagMassChangeHandler : BOOL; // sterowanie blokiem wymiany worka i zapisu wartości poczatkowej do worka jesli rozna od zera
+	bEn_BigBagChangeHandler : BOOL; // sterowanie blokiem wymiany worka i zapisu wartości poczatkowej do worka jesli rozna od zera
 	bEn_BigBagActualMassStore   : BOOL; // sterowanie blokiem aktualizacji masy BiBag
 END_STRUCT
 END_TYPE
