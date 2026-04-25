@@ -3,6 +3,7 @@
   <DUT Name="ST_BigBagMassBalanceOutValues" Id="{b6c5497a-09aa-4b76-84ef-de8b1df290aa}">
     <Declaration><![CDATA[TYPE ST_BigBagMassBalanceOutValues :
 STRUCT
+	rBagActualMassNew		: REAL;	  // aktualna masa w worku po cyklu		
     rDischargeMass          : REAL;   // rzeczywista masa wyładowana
     rMassToTarget           : REAL;   // ile zostało do targetu
 	rLastFullBagMass		: REAL;	  // masa ostatnio napełnionego worka aktywna aż do momentu napełnienia nowego worka	

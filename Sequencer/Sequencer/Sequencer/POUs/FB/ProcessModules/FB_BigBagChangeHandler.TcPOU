@@ -14,7 +14,7 @@ END_VAR
 
 VAR_OUTPUT
 	//OutValues
-    rBagActualMass       : REAL;
+    rBagInitialMass 	 : REAL; // masa początkowa aktualnie założonego worka zadana przez operatora ze SCADA
 	
 	//Status
     bDone                : BOOL;
@@ -33,29 +33,18 @@ END_VAR
     RETURN;
 END_IF;
 
-// domyślna diagnostyka przy aktywnym bloku
-IF NOT bDone THEN
-    sDiag := 'Oczekiwanie na potwierdzenie wymiany worka';
-END_IF;
+sDiag := 'Oczekiwanie na potwierdzenie wymiany worka';
 
-// reakcja tylko na zbocze potwierdzenia
 IF bConfirmBagChange AND NOT bConfirmPrev THEN
-
-    IF rBagStartMassManual > 0.0 THEN
-        rBagActualMass := rBagStartMassManual;
-        sDiag := 'Nowy worek z masa startowa';
-    ELSE
-        rBagActualMass := 0.0;
-        sDiag := 'Nowy pusty worek';
-    END_IF;
-
+    rBagInitialMass := rBagStartMassManual; // 0.0 też jest poprawną wartością
     bDone := TRUE;
+    sDiag := 'Nowy BigBag zainicjalizowany';
 END_IF;
 
 bConfirmPrev := bConfirmBagChange;]]></ST>
     </Implementation>
     <LineIds Name="FB_BigBagChangeHandler">
-      <LineId Id="76" Count="25" />
+      <LineId Id="125" Count="14" />
       <LineId Id="9" Count="0" />
     </LineIds>
   </POU>

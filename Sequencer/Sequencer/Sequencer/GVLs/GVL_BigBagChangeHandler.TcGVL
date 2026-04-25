@@ -19,6 +19,12 @@ VAR_GLOBAL
     {attribute 'OPC.UA.DA' := '1'}
     {attribute 'OPC.UA.DA.StructuredType' := '1'}
     g_stBigBagChangeHandlerStatus     : ST_BigBagChangeHandlerStatus;
+	
+	// OutValues
+    {attribute 'OPC.UA.DA' := '1'}
+    {attribute 'OPC.UA.DA.StructuredType' := '1'}
+    g_stBigBagChangeHandlerOutValues   : ST_BigBagChangeHandlerOutValues;
+	
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

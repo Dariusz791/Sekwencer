@@ -3,7 +3,6 @@
   <DUT Name="ST_BigBagMassBalanceInValues" Id="{2a7141f8-738b-4ce5-9d22-1836de5877a5}">
     <Declaration><![CDATA[TYPE ST_BigBagMassBalanceInValues :
 STRUCT
-    rBagActualMass          : REAL;   // aktualna masa worka przed cyklem
     rBagStartMassManual     : REAL;   // ręcznie wpisana masa początkowa worka częściowo napełnionego
     rMassBeforeDischarge    : REAL;   // stabilna masa przed wysypem
     rMassAfterDischarge     : REAL;   // stabilna masa po wysypie

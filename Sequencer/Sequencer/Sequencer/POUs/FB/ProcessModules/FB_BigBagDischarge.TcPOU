@@ -14,7 +14,7 @@ VAR_INPUT
 	tBulkDischargeTime_SP       : TIME;     // maksymalny czas wysypu w trybie BULK
 	
 	//InValues
-    rBagActualMass              : REAL;     // aktualna masa bieżącego worka przed rozpoczęciem wysypu
+	rBagActualMass              : REAL;     // aktualna masa bieżącego worka przed rozpoczęciem wysypu
     rDosedBatchActual           : REAL;     // aktualna rzeczywista ilość zadozowana w cyklu rSludge + rLime +rPerlite
     rMassBeforeDischarge		: REAL;		// stabilna masa przed wysypem odczytana z wagi zawiera wsad z cyklu + zaleganie
 	rActualWeight               : REAL;     // aktualna masa batch procesu odczytywana z wagi
