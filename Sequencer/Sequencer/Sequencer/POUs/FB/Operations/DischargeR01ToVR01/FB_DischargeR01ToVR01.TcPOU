@@ -47,7 +47,7 @@ VAR_OUTPUT
     bEn_AirExtraction       	: BOOL;
     bEn_BigBagDischarge     	: BOOL;
     bEn_BigBagMassBalance   	: BOOL;
-	bEn_BigBagMassChangeHandler : BOOL;
+	bEn_BigBagChangeHandler 	: BOOL;
 	bEn_BigBagActualMassStore   : BOOL;
 	
 END_VAR                  	
@@ -122,6 +122,7 @@ bEn_AirExtraction   		:= FALSE;
 bEn_BigBagDischarge 		:= FALSE;
 bEn_BigBagMassBalance		:= FALSE;
 bEn_BigBagMassChangeHandler := FALSE;
+bEn_BigBagActualMassStore   := FALSE;
 
 sDiag               := '';
 
@@ -346,7 +347,9 @@ END_CASE;]]></ST>
       <LineId Id="1189" Count="0" />
       <LineId Id="1285" Count="0" />
       <LineId Id="1499" Count="0" />
-      <LineId Id="821" Count="1" />
+      <LineId Id="821" Count="0" />
+      <LineId Id="1567" Count="0" />
+      <LineId Id="822" Count="0" />
       <LineId Id="1418" Count="18" />
       <LineId Id="1417" Count="0" />
       <LineId Id="823" Count="16" />

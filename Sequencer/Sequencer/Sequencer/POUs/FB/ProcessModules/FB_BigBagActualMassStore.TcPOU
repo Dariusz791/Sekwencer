@@ -3,16 +3,83 @@
   <POU Name="FB_BigBagActualMassStore" Id="{cdb68e65-853a-41ec-96c7-de00162eaa0c}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_BigBagActualMassStore
 VAR_INPUT
+    // InCmd
+    bEnable                     : BOOL;
+
+    // InValues - zdarzenie wymiany worka
+    bBigBagChangeHandlerDone    : BOOL;
+    rBagInitialMass             : REAL;
+
+    // InValues - zdarzenie zakończonego bilansu
+    bMassBalanceDone            : BOOL;
+    bBagChangeRequired          : BOOL;
+    rBagActualMassNew           : REAL;
 END_VAR
+
 VAR_OUTPUT
+    // OutValues
+    rBagActualMass              : REAL;
+
+    // Status
+    sDiag                       : T_MaxString;
 END_VAR
+
 VAR
+    bChangeDonePrev             : BOOL := FALSE;
+    bMassBalanceDonePrev        : BOOL := FALSE;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[// ---------------------------------------------------------
+// BLOK NIEAKTYWNY
+// ---------------------------------------------------------
+IF NOT bEnable THEN
+    sDiag := 'BigBagActualMassStore idle';
+
+    bChangeDonePrev := FALSE;
+    bMassBalanceDonePrev := FALSE;
+
+    RETURN;
+END_IF;
+
+
+// ---------------------------------------------------------
+// DOMYŚLNIE TRZYMAJ OSTATNIĄ WARTOŚĆ
+// ---------------------------------------------------------
+sDiag := 'BigBagActualMassStore active';
+
+
+// ---------------------------------------------------------
+// PRIORYTET 1: NOWY WOREK PO POTWIERDZONEJ WYMIANIE
+// ---------------------------------------------------------
+IF bBigBagChangeHandlerDone AND NOT bChangeDonePrev THEN
+    rBagActualMass := rBagInitialMass;
+
+    IF rBagInitialMass > 0.0 THEN
+        sDiag := 'Nowy BigBag z masa poczatkowa';
+    ELSE
+        sDiag := 'Nowy pusty BigBag';
+    END_IF;
+
+
+// ---------------------------------------------------------
+// PRIORYTET 2: AKTUALIZACJA MASY PO NORMALNYM CYKLU
+// tylko jeśli worek NIE wymaga wymiany
+// ---------------------------------------------------------
+ELSIF bMassBalanceDone AND NOT bMassBalanceDonePrev AND NOT bBagChangeRequired THEN
+    rBagActualMass := rBagActualMassNew;
+    sDiag := 'Zaktualizowano mase BigBag po cyklu';
+END_IF;
+
+
+// ---------------------------------------------------------
+// PAMIĘĆ ZBOCZY
+// ---------------------------------------------------------
+bChangeDonePrev := bBigBagChangeHandlerDone;
+bMassBalanceDonePrev := bMassBalanceDone;]]></ST>
     </Implementation>
     <LineIds Name="FB_BigBagActualMassStore">
+      <LineId Id="36" Count="45" />
       <LineId Id="9" Count="0" />
     </LineIds>
   </POU>
