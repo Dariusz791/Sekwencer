@@ -5,7 +5,8 @@
 VAR_INPUT
     // InCmd
     bRun                    	: BOOL;
-	bPause						: BOOL;	
+	bPause						: BOOL;
+	bStopAfterCycle 			: BOOL; // zakończ po bieżącym cyklu, nie zaczynaj następnego	
                            	
     // Par                  	
     rSludgeKg_SP            	: REAL;
@@ -16,6 +17,7 @@ VAR_INPUT
     // InValues             	
     rActualWeight           	: REAL;	
 	bBigBagDischargeDone 		: BOOL;  // Potwierdzenie wyladowania bigbag i zamkniecia klapy
+	bBigBagMassBalanceDone 		: BOOL;  // Potwierdzenie wykonania bilansu masy
 	bBagChangeRequired 			: BOOL;	 // Żadanie wymiany BigBag z FB_BigBagMassBalance		
 	bBigBagChangeHandlerDone	: BOOL;  // Potwierdzenie wymiany bigbag i ustawienia nowej masy startowej, domyślnie startowa 0.0 chyba, że operator poda inaczej 
 
@@ -158,18 +160,26 @@ CASE eStep OF
         fbMixTimer(IN := FALSE, PT := tMixingTime);
         fbScaleSettleTimer(IN := FALSE, PT := tScaleSettleTime);
 
-        rSludgeDelta := 0.0;
-        rPerliteDelta := 0.0;
-        rLimeDelta := 0.0;
-        rDischargeMass := 0.0;
-		rDosedBatchActual := 0.0;
-		rMassBeforeDischarge := 0.0;
-		rMassAfterDischarge := 0.0;
-
         IF bRun THEN
-            eStep := E_DischargeState.DOSE_SLUDGE;
+            eStep := E_DischargeState.INIT_CYCLE;
         END_IF;
-
+	
+	E_DischargeState.INIT_CYCLE:
+    	sDiag := 'Inicjalizacja cyklu wyładunku';
+    	bAutoTakeOver := TRUE;
+    	
+    	fbMixTimer(IN := FALSE, PT := tMixingTime);
+    	fbScaleSettleTimer(IN := FALSE, PT := tScaleSettleTime);
+    	
+    	rSludgeDelta := 0.0;
+    	rPerliteDelta := 0.0;
+    	rLimeDelta := 0.0;
+    	rDischargeMass := 0.0;
+    	rDosedBatchActual := 0.0;
+    	rMassBeforeDischarge := 0.0;
+    	rMassAfterDischarge := 0.0;
+    	
+    	eStep := E_DischargeState.DOSE_SLUDGE;
 
     E_DischargeState.DOSE_SLUDGE:
         sDiag := 'Dozowanie osadu';
@@ -295,11 +305,13 @@ CASE eStep OF
         fbMixTimer(IN := FALSE, PT := tMixingTime);
         fbScaleSettleTimer(IN := FALSE, PT := tScaleSettleTime);
 
-        IF bBagChangeRequired THEN
-             eStep := E_DischargeState.WAIT_BAG_CHANGE;
-        ELSE
-             eStep := E_DischargeState.DONE;
-        END_IF;
+		IF bBigBagMassBalanceDone THEN	
+        	IF bBagChangeRequired THEN
+        	     eStep := E_DischargeState.WAIT_BAG_CHANGE;
+        	ELSE
+        	     eStep := E_DischargeState.DONE;
+        	END_IF;
+		END_IF
 
 
 
@@ -324,13 +336,22 @@ CASE eStep OF
         sDiag := 'Cykl zakonczony';
 
 		bDone := TRUE; 
+		
         fbMixTimer(IN := FALSE, PT := tMixingTime);
         fbScaleSettleTimer(IN := FALSE, PT := tScaleSettleTime);
 	
 
-        IF NOT bRun THEN
-            eStep := E_DischargeState.IDLE;
-        END_IF;
+		IF NOT bRun THEN
+			eStep := E_DischargeState.IDLE;
+	
+		ELSIF bStopAfterCycle THEN
+			// zostajemy w DONE, nadrzędny blok może zdjąć bRun
+			eStep := E_DischargeState.DONE;
+	
+		ELSE
+			// kontynuacja procesu - kolejny cykl
+			eStep := E_DischargeState.INIT_CYCLE;
+		END_IF;
 
 
 ELSE
@@ -352,9 +373,11 @@ END_CASE;]]></ST>
       <LineId Id="822" Count="0" />
       <LineId Id="1418" Count="18" />
       <LineId Id="1417" Count="0" />
-      <LineId Id="823" Count="16" />
-      <LineId Id="1190" Count="2" />
-      <LineId Id="840" Count="18" />
+      <LineId Id="823" Count="12" />
+      <LineId Id="841" Count="3" />
+      <LineId Id="1633" Count="14" />
+      <LineId Id="1632" Count="0" />
+      <LineId Id="845" Count="13" />
       <LineId Id="860" Count="20" />
       <LineId Id="882" Count="18" />
       <LineId Id="902" Count="0" />
@@ -380,8 +403,12 @@ END_CASE;]]></ST>
       <LineId Id="977" Count="5" />
       <LineId Id="1352" Count="1" />
       <LineId Id="983" Count="8" />
-      <LineId Id="993" Count="3" />
-      <LineId Id="1014" Count="5" />
+      <LineId Id="993" Count="2" />
+      <LineId Id="1660" Count="0" />
+      <LineId Id="996" Count="0" />
+      <LineId Id="1014" Count="4" />
+      <LineId Id="1661" Count="0" />
+      <LineId Id="1019" Count="0" />
       <LineId Id="1021" Count="4" />
       <LineId Id="1029" Count="0" />
       <LineId Id="1351" Count="0" />
@@ -392,9 +419,13 @@ END_CASE;]]></ST>
       <LineId Id="1031" Count="1" />
       <LineId Id="1500" Count="0" />
       <LineId Id="1038" Count="7" />
-      <LineId Id="1048" Count="2" />
+      <LineId Id="1048" Count="0" />
+      <LineId Id="1648" Count="0" />
+      <LineId Id="1049" Count="1" />
       <LineId Id="1344" Count="0" />
-      <LineId Id="1051" Count="7" />
+      <LineId Id="1051" Count="0" />
+      <LineId Id="1649" Count="9" />
+      <LineId Id="1054" Count="4" />
       <LineId Id="9" Count="0" />
     </LineIds>
   </POU>

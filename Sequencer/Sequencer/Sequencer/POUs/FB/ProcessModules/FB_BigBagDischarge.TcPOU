@@ -67,6 +67,7 @@ IF NOT bEnable THEN
 
     uiFlapPosSp := 0;
     rDischargedMassStep := 0.0;
+	
 
     sDiag := 'BigBagDischarge idle';
     RETURN;
@@ -195,7 +196,9 @@ ELSE
 END_CASE;]]></ST>
     </Implementation>
     <LineIds Name="FB_BigBagDischarge">
-      <LineId Id="248" Count="143" />
+      <LineId Id="248" Count="18" />
+      <LineId Id="437" Count="0" />
+      <LineId Id="267" Count="124" />
       <LineId Id="53" Count="0" />
     </LineIds>
   </POU>

@@ -6,6 +6,7 @@
 TYPE E_DischargeState :
 (
     IDLE,                    // blok nieaktywny
+	INIT_CYCLE,				 // inicjalizacja nowego cyklu	
     DOSE_SLUDGE,             // dozowanie osadu
     DOSE_PERLITE,            // dozowanie perlitu
     DOSE_LIME,               // dozowanie wapna
@@ -26,6 +27,11 @@ END_TYPE
           <l n="TextList" t="ArrayList" cet="TextListRow">
             <o>
               <v n="TextID">"IDLE"</v>
+              <v n="TextDefault">""</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"INIT_CYCLE"</v>
               <v n="TextDefault">""</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
