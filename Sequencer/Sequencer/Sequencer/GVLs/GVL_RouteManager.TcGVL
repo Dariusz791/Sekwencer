@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <GVL Name="GVL_RouteManager" Id="{7d46fcc4-34f1-444a-befc-906bb415c7fb}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	
+	// InCmd
+	{attribute 'OPC.UA.DA' := '1'}
+    {attribute 'OPC.UA.DA.StructuredType' := '1'}
+    g_stRouteManagerInCmd  : ST_RouteManagerInCmd;
+
+    // Status
+    {attribute 'OPC.UA.DA' := '1'}
+    {attribute 'OPC.UA.DA.StructuredType' := '1'}
+    g_stRouteManagerStatus : ST_RouteManagerStatus;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="ST_MainProcessSupervisorOutCmd" Id="{ec229538-97f6-4dfe-8358-f58ee19f989e}">
+    <Declaration><![CDATA[TYPE ST_MainProcessSupervisorOutCmd :
+STRUCT
+    // sprzężenie do RouteManager
+    eAutoRouteReq                           : E_Route;
+
+    // komendy dla FB_DischargeR01ToVR01
+    bRunDischargeR01ToVR01                  : BOOL;
+    bPauseDischargeR01ToVR01                : BOOL;
+    bStopAfterCycleDischargeR01ToVR01       : BOOL;
+
+    // komendy wykonawcze pozostałych operacji
+    bRunFeedSBRToR01                        : BOOL;
+    bRunSBRToWiata                          : BOOL;
+    bRunR01ToWiata                          : BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

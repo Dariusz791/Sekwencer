@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="ST_MainProcessSupervisorStatus" Id="{c1497a6c-4050-47d9-9940-fcf57961c2d1}">
+    <Declaration><![CDATA[TYPE ST_MainProcessSupervisorStatus :
+STRUCT
+    eState                  : E_MainState;       // stan główny Supervisora
+    eOperation              : E_MainOperation;   // aktualna operacja
+    eAutoPhase              : E_AutoPhase;       // aktualna faza AUTO
+
+    bReadyToStart           : BOOL;              // gotowość do startu
+    iStatusCode             : INT;               // kod diagnostyczny / statusowy
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

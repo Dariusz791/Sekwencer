@@ -25,14 +25,14 @@ VAR_INPUT
 	
 END_VAR
 VAR_OUTPUT
+	//Status
     bCriticalDeviceFault    : BOOL;
-
-    bFault_Thermal          : BOOL;
-    bFault_Comm             : BOOL;
-    bFault_Inverter         : BOOL;
-
 END_VAR
 VAR
+	bFault_Comm				: BOOL;
+	bFault_Inverter			: BOOL;
+	bFault_Thermal			: BOOL;
+	
 END_VAR
 ]]></Declaration>
     <Implementation>

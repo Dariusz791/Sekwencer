@@ -7,32 +7,23 @@ VAR_GLOBAL
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.StructuredType' := '1'}
 	{attribute 'OPC.UA.DA.Description' := 'g_stProcessCmd (structured) type '} 
-    g_stProcessCmd        : ST_ProcessCmd;
+    g_stProcessCmd        : ST_MainProcessSupervisorInCmd;
 	
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.StructuredType' := '1'}
 	{attribute 'OPC.UA.DA.Description' := 'g_stProcessStatus (structured) type '} 
-    g_stProcessStatus     : ST_ProcessStatus;
+    g_stProcessStatus     : ST_MainProcessSupervisorStatus;
 
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.StructuredType' := '1'}
 	{attribute 'OPC.UA.DA.Description' := 'g_stRouteStatus (structured) type '} 
-    g_stRouteStatus       : ST_RouteStatus;
+    g_stRouteStatus       : ST_RouteManagerStatus;
 
-	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.StructuredType' := '1'}
-	{attribute 'OPC.UA.DA.Description' := 'g_stDeviceDiag (structured) type '} 
-    g_stDeviceDiag        : ST_DeviceDiag;
-
-	{attribute 'OPC.UA.DA' := '1'}
-	{attribute 'OPC.UA.DA.StructuredType' := '1'}
-	{attribute 'OPC.UA.DA.Description' := 'g_stProcessDiag (structured) type '} 
-    g_stProcessDiag       : ST_ProcessDiag;
 
 	{attribute 'OPC.UA.DA' := '1'}
 	{attribute 'OPC.UA.DA.StructuredType' := '1'}
 	{attribute 'OPC.UA.DA.Description' := 'g_stProcessValues (structured) type '} 
-    g_stProcessValues     : ST_ProcessValues;
+    g_stProcessValues     : ST_MainProcessSupervisorPar;
 	
 
 

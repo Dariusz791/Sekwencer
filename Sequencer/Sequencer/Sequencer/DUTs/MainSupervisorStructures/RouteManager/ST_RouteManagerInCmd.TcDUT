@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="ST_RouteManagerInCmd" Id="{536c62b1-4a07-4308-95d1-d601f219873a}">
+    <Declaration><![CDATA[TYPE ST_RouteManagerInCmd :
+STRUCT
+    eSelectedRoute      : E_Route;
+    bConfirmRouteReq    : BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

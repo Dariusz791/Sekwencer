@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.16">
+  <DUT Name="ST_MainProcessSupervisorInCmd" Id="{e1f6948f-de1e-4c32-bc19-36eb66bcb132}">
+    <Declaration><![CDATA[TYPE ST_MainProcessSupervisorInCmd :
+STRUCT
+    eModeCmd                : E_MainMode;       // tryb pracy: OFF / MANUAL / AUTO
+    eManualOperationCmd     : E_MainOperation;  // operacja wybrana w MANUAL
+
+    bStartReq               : BOOL;             // żądanie START z HMI/SCADA
+    bPauseReq               : BOOL;             // żądanie PAUSE z HMI/SCADA
+    bStopReq                : BOOL;             // żądanie STOP z HMI/SCADA
+END_STRUCT
+END_TYPE
+
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

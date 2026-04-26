@@ -3,18 +3,23 @@
   <POU Name="FB_RouteManager" Id="{2cc54890-26a8-4039-94c6-741236dde086}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_RouteManager
 VAR_INPUT
+    //====================================================
+    // InCmd - komendy / żądania wejściowe
+    //====================================================
+    eMode               : E_MainMode;     // tryb pracy procesu - SCADA
+	eSelectedRoute      : E_Route;		  // trasa wybrana przez operatora w MANUAL - SCADA
+	eAutoRouteReq       : E_Route;        // trasa żądana przez MainProcessSupervisor w - AUTO
+	bConfirmRouteReq    : BOOL;			  // potwierdzenie trasy z - SCADA/HMI
 	
-	// tryb pracy
-	eMode               : E_MainMode;	
-    eSelectedRoute      : E_Route;	    // ustawiona aktualna trasa w MANUAL
-	eAutoRouteReq       : E_Route;      // zadana trasa z Supervisora w AUTO
-    bConfirmRouteReq    : BOOL; 		// potwierdzenie SCADA
 END_VAR
 
 VAR_OUTPUT	
-	eConfirmedRoute     : E_Route;	    // potwierdzona trasa
-    bRouteValid         : BOOL;		    // czy aktualna aktywna trasa jest potwierdzona
-	iState              : INT;		    // stan dla sygnalizacji w SCADA					
+    //====================================================
+    // Status - status RouteManagera
+    //====================================================
+    eConfirmedRoute     : E_Route;	// aktualnie potwierdzona trasa
+	bRouteValid         : BOOL;		 // czy aktualna aktywna trasa jest potwierdzona
+	iState              : INT;		 // stan / kod diagnostyczny dla SCADA		
 END_VAR
 
 VAR

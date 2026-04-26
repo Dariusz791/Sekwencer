@@ -3,18 +3,32 @@
   <POU Name="FB_MainProcessSupervisor" Id="{3b6f5e7a-f0c5-4a2a-8684-09fc4c8c1d64}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_MainProcessSupervisor
 VAR_INPUT
-    // komendy operatorskie
+    //====================================================
+    // InCmd - komendy operatorskie / HMI
+    //====================================================
     eModeCmd                : E_MainMode;
     eManualOperationCmd     : E_MainOperation;
     bCmdStartReq            : BOOL;
     bCmdPauseReq            : BOOL;
     bCmdStopReq             : BOOL;
-
+	
+    //====================================================
+    // Par - nastawy / parametry procesu AUTO
+    //====================================================
+    rLevelMinSP             : REAL;
+    rLevelMaxSP             : REAL;
+	
+    //====================================================
+    // InValues - statusy i wartości wejściowe
+    //====================================================
     // status trasy z RouteManager
     eConfirmedRoute         : E_Route;
     bRouteValid             : BOOL;
 
-    // diagnostyka
+    // status FB_DischargeR01ToVR01
+    bDischargeR01ToVR01Done : BOOL;
+
+    // diagnostyka / warunki procesu
     bSystemReady            : BOOL;
     bPauseRequiredByProcess : BOOL;
     bPauseNoLime            : BOOL;
@@ -22,40 +36,50 @@ VAR_INPUT
     bCriticalDeviceFault    : BOOL;
     bSPD01FaultActive       : BOOL;
 
-    // proces
+    // wartości procesowe
     rR01Level               : REAL;
-    rLevelMinSP             : REAL;
-    rLevelMaxSP             : REAL;
 END_VAR
 
 VAR_OUTPUT
-    eState                      : E_MainState;
-    eOperation                  : E_MainOperation;
-    eAutoPhase                  : E_AutoPhase;
+    //====================================================
+    // Status - status Supervisora
+    //====================================================
+    eState                  : E_MainState;
+    eOperation              : E_MainOperation;
+    eAutoPhase              : E_AutoPhase;
+    bReadyToStart           : BOOL;
+    iStatusCode             : INT;
 	
-	//komenda pausy dla bloku podrzednego
-	bCmdPauseDischargeR01ToVR01 : BOOL;
+    //====================================================
+    // OutCmd - komendy do bloków podrzędnych
+    //====================================================
 
     // sprzężenie do RouteManager
-    eAutoRouteReq               : E_Route;
+    eAutoRouteReq           : E_Route;
 
-    // komendy wykonawcze
-    bCmdRunDischargeR01ToVR01   : BOOL;
-    bCmdRunFeedSBRToR01         : BOOL;
-    bCmdRunSBRToWiata           : BOOL;
-    bCmdRunR01ToWiata           : BOOL;
+    // komendy dla FB_DischargeR01ToVR01
+    bCmdRunDischargeR01ToVR01            : BOOL;
+    bCmdPauseDischargeR01ToVR01          : BOOL;
+    bCmdStopAfterCycleDischargeR01ToVR01 : BOOL;
 
-    bReadyToStart               : BOOL;
-    iStatusCode                 : INT;
+    // komendy wykonawcze pozostałych operacji
+    bCmdRunFeedSBRToR01     : BOOL;
+    bCmdRunSBRToWiata       : BOOL;
+    bCmdRunR01ToWiata       : BOOL;
+
+
 END_VAR
 
 VAR
-    rtStart                     : R_TRIG;
-    rtPause                     : R_TRIG;
-    rtStop                      : R_TRIG;
+    //====================================================
+    // Internal
+    //====================================================
+    rtStart                 : R_TRIG;
+    rtPause                 : R_TRIG;
+    rtStop                  : R_TRIG;
 
-    ePausedOperation            : E_MainOperation;
-    ePausedAutoPhase            : E_AutoPhase;
+    ePausedOperation        : E_MainOperation;
+    ePausedAutoPhase        : E_AutoPhase;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -71,9 +95,13 @@ rtStop(CLK := bCmdStopReq);
 // Domyślne wyzerowanie wyjść wykonawczych
 //====================================================
 bCmdRunDischargeR01ToVR01 := FALSE;
+bCmdPauseDischargeR01ToVR01 := FALSE;
+bCmdStopAfterCycleDischargeR01ToVR01 := FALSE;
+
 bCmdRunFeedSBRToR01 := FALSE;
 bCmdRunSBRToWiata := FALSE;
 bCmdRunR01ToWiata := FALSE;
+
 
 //eAutoRouteReq := E_Route.NONE;
 
@@ -112,24 +140,49 @@ END_IF;
 IF eState = E_MainState.PAUSE THEN
     iStatusCode := 300;
 
-    // w PAUSE nadal pamiętamy żądaną trasę AUTO zależnie od fazy
-    CASE ePausedAutoPhase OF
-        E_AutoPhase.AUTO_WAIT_DISCHARGE_ROUTE_CONFIRM,
-        E_AutoPhase.AUTO_DISCHARGE_TO_MIN:
-            eAutoRouteReq := E_Route.R01_TO_VR01;
+    IF eModeCmd = E_MainMode.AUTO THEN //obsuga pauzy w Auto
+        CASE ePausedAutoPhase OF
+            E_AutoPhase.AUTO_WAIT_DISCHARGE_ROUTE_CONFIRM,
+            E_AutoPhase.AUTO_DISCHARGE_TO_MIN:
+                eAutoRouteReq := E_Route.R01_TO_VR01;
 
-        E_AutoPhase.AUTO_WAIT_FEED_ROUTE_CONFIRM,
-        E_AutoPhase.AUTO_FEED_TO_MAX:
-            eAutoRouteReq := E_Route.SBR_TO_R01;
+            E_AutoPhase.AUTO_WAIT_FEED_ROUTE_CONFIRM,
+            E_AutoPhase.AUTO_FEED_TO_MAX:
+                eAutoRouteReq := E_Route.SBR_TO_R01;
 
+        ELSE
+            eAutoRouteReq := E_Route.NONE;
+        END_CASE;
     ELSE
         eAutoRouteReq := E_Route.NONE;
-    END_CASE;
+    END_IF;
+
+    CASE ePausedOperation OF                    
+                                                
+        E_MainOperation.R01_TO_VR01:            
+            bCmdRunDischargeR01ToVR01 := TRUE;  
+            bCmdPauseDischargeR01ToVR01 := TRUE;
+                                                
+        E_MainOperation.SBR_TO_R01:             
+            bCmdRunFeedSBRToR01 := TRUE;        
+                                                
+        E_MainOperation.SBR_TO_WIATA:           
+            bCmdRunSBRToWiata := TRUE;          
+                                                
+        E_MainOperation.R01_TO_WIATA:           
+            bCmdRunR01ToWiata := TRUE;          
+                                                
+    END_CASE;                                   
+       
 
     IF rtStart.Q AND NOT bPauseRequiredByProcess AND bSystemReady THEN
         eState := E_MainState.RUN;
         eOperation := ePausedOperation;
-        eAutoPhase := ePausedAutoPhase;
+
+        IF eModeCmd = E_MainMode.AUTO THEN
+            eAutoPhase := ePausedAutoPhase;
+        END_IF;
+
         iStatusCode := 301;
     END_IF;
 END_IF;
@@ -199,26 +252,41 @@ IF (eState <> E_MainState.FAULT) AND (eState <> E_MainState.PAUSE) THEN
                     END_IF;
 
 
-                E_AutoPhase.AUTO_DISCHARGE_TO_MIN:
-                    eState := E_MainState.RUN;
-                    eOperation := E_MainOperation.R01_TO_VR01;
-                    eAutoRouteReq := E_Route.R01_TO_VR01;
-                    bCmdRunDischargeR01ToVR01 := TRUE;
-                    iStatusCode := 30;
-
-                    IF rtPause.Q OR bPauseRequiredByProcess THEN
-                        eState := E_MainState.PAUSE;
-                        ePausedOperation := eOperation;
-                        ePausedAutoPhase := eAutoPhase;
-                        iStatusCode := 31;
-
-                    ELSIF rR01Level <= rLevelMinSP THEN
-                        eState := E_MainState.STOP;
-                        eOperation := E_MainOperation.NONE;
-                        eAutoPhase := E_AutoPhase.AUTO_WAIT_FEED_ROUTE_CONFIRM;
-                        iStatusCode := 32;
-                    END_IF;
-
+				E_AutoPhase.AUTO_DISCHARGE_TO_MIN:
+					eState := E_MainState.RUN;
+					eOperation := E_MainOperation.R01_TO_VR01;
+					eAutoRouteReq := E_Route.R01_TO_VR01;
+				
+					bCmdRunDischargeR01ToVR01 := TRUE;
+					bCmdPauseDischargeR01ToVR01 := FALSE;
+				
+					// FALSE = praca cykliczna
+					// TRUE  = dokończ aktualny cykl i zostań w DONE
+					bCmdStopAfterCycleDischargeR01ToVR01 := (rR01Level <= rLevelMinSP);
+				
+					iStatusCode := 30;
+				
+					IF rtPause.Q OR bPauseRequiredByProcess THEN
+						eState := E_MainState.PAUSE;
+						ePausedOperation := eOperation;
+						ePausedAutoPhase := eAutoPhase;
+						iStatusCode := 31;
+				
+					ELSIF (rR01Level <= rLevelMinSP) AND bDischargeR01ToVR01Done THEN
+						bCmdRunDischargeR01ToVR01 := FALSE;
+						bCmdPauseDischargeR01ToVR01 := FALSE;
+						bCmdStopAfterCycleDischargeR01ToVR01 := FALSE;
+				
+						eState := E_MainState.STOP;
+						eOperation := E_MainOperation.NONE;
+						eAutoPhase := E_AutoPhase.AUTO_WAIT_FEED_ROUTE_CONFIRM;
+						iStatusCode := 32;
+				
+					ELSIF rR01Level <= rLevelMinSP THEN
+						// poziom minimalny osiągnięty, ale cykl jeszcze trwa
+						// czekamy na bDischargeR01ToVR01Done
+						iStatusCode := 34;
+					END_IF;
 
                 E_AutoPhase.AUTO_WAIT_FEED_ROUTE_CONFIRM:
                     eState := E_MainState.STOP;
@@ -302,8 +370,7 @@ IF (eState <> E_MainState.FAULT) AND (eState <> E_MainState.PAUSE) THEN
                         IF rtPause.Q OR bPauseRequiredByProcess THEN
                             eState := E_MainState.PAUSE;
                             ePausedOperation := eOperation;
-                            ePausedAutoPhase := E_AutoPhase.AUTO_IDLE;
-                            iStatusCode := 211;
+                              iStatusCode := 211;
                         END_IF;
                     END_IF;
 
@@ -322,7 +389,6 @@ IF (eState <> E_MainState.FAULT) AND (eState <> E_MainState.PAUSE) THEN
                         IF rtPause.Q OR bPauseRequiredByProcess THEN
                             eState := E_MainState.PAUSE;
                             ePausedOperation := eOperation;
-                            ePausedAutoPhase := E_AutoPhase.AUTO_IDLE;
                             iStatusCode := 221;
                         END_IF;
                     END_IF;
@@ -342,7 +408,6 @@ IF (eState <> E_MainState.FAULT) AND (eState <> E_MainState.PAUSE) THEN
                         IF rtPause.Q OR bPauseRequiredByProcess THEN
                             eState := E_MainState.PAUSE;
                             ePausedOperation := eOperation;
-                            ePausedAutoPhase := E_AutoPhase.AUTO_IDLE;
                             iStatusCode := 231;
                         END_IF;
                     END_IF;
@@ -362,7 +427,6 @@ IF (eState <> E_MainState.FAULT) AND (eState <> E_MainState.PAUSE) THEN
                         IF rtPause.Q OR bPauseRequiredByProcess THEN
                             eState := E_MainState.PAUSE;
                             ePausedOperation := eOperation;
-                            ePausedAutoPhase := E_AutoPhase.AUTO_IDLE;
                             iStatusCode := 241;
                         END_IF;
                     END_IF;
@@ -378,7 +442,22 @@ IF (eState <> E_MainState.FAULT) AND (eState <> E_MainState.PAUSE) THEN
 END_IF;]]></ST>
     </Implementation>
     <LineIds Name="FB_MainProcessSupervisor">
-      <LineId Id="496" Count="315" />
+      <LineId Id="496" Count="11" />
+      <LineId Id="875" Count="1" />
+      <LineId Id="881" Count="0" />
+      <LineId Id="508" Count="2" />
+      <LineId Id="872" Count="0" />
+      <LineId Id="511" Count="31" />
+      <LineId Id="882" Count="2" />
+      <LineId Id="970" Count="36" />
+      <LineId Id="1010" Count="10" />
+      <LineId Id="569" Count="66" />
+      <LineId Id="936" Count="33" />
+      <LineId Id="655" Count="84" />
+      <LineId Id="741" Count="17" />
+      <LineId Id="760" Count="18" />
+      <LineId Id="780" Count="18" />
+      <LineId Id="800" Count="11" />
       <LineId Id="172" Count="0" />
     </LineIds>
   </POU>
